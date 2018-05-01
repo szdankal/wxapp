@@ -1,0 +1,60 @@
+<style lang="less">
+
+</style>
+<template>
+  <view style="text-align: center;">Dankal Template</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test'
+    }
+    components = {
+
+    }
+
+
+    data={
+      name:'ivan'
+    }
+    computed = {
+
+    }
+    onLoad() {
+
+    }
+    onShow(){
+     this.network().getIndexList()
+    }
+    /*放置view层事件函数*/
+    methods = {
+
+    }
+    /*放置网络访问函数*/
+    network(){
+      let self=this
+      return{
+        getIndexList(){
+            console.log(self.name)
+        }
+      }
+    }
+    /*放置私有处理函数*/
+    handler(){
+      let self=this
+      return{
+        handleList(){
+          
+        }
+      }
+    }
+    /*wepy事件函数*/
+    events = {
+
+    }
+
+  }
+</script>

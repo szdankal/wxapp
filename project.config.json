@@ -1,0 +1,13 @@
+{
+  "description": "wechat app template based on wepy",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "wxapp",
+  "miniprogramRoot": "./dist"
+}

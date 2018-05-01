@@ -1,0 +1,56 @@
+<style>
+  page{font-size: 28rpx;color: #4d4d4d;background: #F6F8FA;width: 100%;height: 100%;border-top: 1px solid rgba(182,182,182,0.12);letter-spacing: 2rpx;}
+  page,view,input,textarea,cover-view,picker,navigator,form,scroll-view,image{box-sizing: border-box;  -moz-box-sizing: border-box; -webkit-box-sizing: border-box;-webkit-overflow-scrolling: touch;}
+  image,input{vertical-align: middle}
+  form{display:block;}
+  .full-wh{width: 100%;height: 100%;overflow: auto;}
+  .full-w{width:100%}
+  .opacity{opacity:0}
+  .pos-abs{position: absolute; top:0; left: 0;}
+  .pos-rel{position: relative; }
+  .text-bord{font-weight: bolder}
+  .text-line-limit{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+  .text-line-limit-2{overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
+  .bg-white{background: #FFFFFF}
+  .btn-default{width: 280rpx;line-height: 78rpx;text-align: center;font-size: 30rpx; border-radius: 8rpx;margin: 0 auto;}
+  .shadow-black{-webkit-box-shadow:0px 2rpx 20rpx rgba(0,0,0,0.12);box-shadow:0px 2rpx 20rpx rgba(0,0,0,0.12);}
+  .float-left{float: left;}
+  .float-right{float: right;}
+  .clear{clear: both;}
+  .clear::after{content: "";display: block;clear: both;}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
+    }
+  }
+
+  globalData = {
+    userInfo: null
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+    this.use('promisify');
+  }
+
+  onLaunch() {
+    
+  }
+ 
+}
+</script>
