@@ -1,12 +1,24 @@
 <style lang="less">
+    .main-title{
+      text-align: center;
+      font-size: 38rpx;
+      font-weight: bold;
+      padding: 20rpx 0;
 
+    }
+    .sub-title{
+      padding: 20rpx 20rpx;
+    }
 </style>
 <template>
-  <view style="text-align: center;">Dankal Template</view>
+  <view class="main-title">Dankal Template</view>
+  <navigator class="sub-title" url="./wepyx">1.wepyx状态管理演示</navigator>
+  <navigator class="sub-title" url="./auth">2.auth页面</navigator>
 </template>
 
 <script>
   import wepy from 'wepy'
+
 
   export default class Index extends wepy.page {
     config = {
@@ -24,7 +36,7 @@
 
     }
     onLoad() {
-
+      console.log(this,'onload')
     }
     onShow(){
      this.network().getIndexList()
@@ -35,19 +47,17 @@
     }
     /*放置网络访问函数*/
     network(){
-      let self=this
       return{
-        getIndexList(){
-            console.log(self.name)
+        getIndexList:async()=>{
+            console.log(this.name)
         }
       }
     }
     /*放置私有处理函数*/
     handler(){
-      let self=this
       return{
-        handleList(){
-          
+        handleList:()=>{
+
         }
       }
     }

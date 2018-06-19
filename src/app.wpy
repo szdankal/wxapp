@@ -23,12 +23,21 @@
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
-
-
+import weappx from 'weappx';
+import connector from 'weappx-wepy';
+import model from './store'
+console.log(model,'model')
+const store = weappx()
+store.init({ connector })
+store.model(model)
+store.start()
+console.log(store,'store')
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/index',
+      'pages/wepyx',
+      'pages/auth'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -49,8 +58,8 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-    
+
   }
- 
+
 }
 </script>
