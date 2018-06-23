@@ -14,6 +14,8 @@
   <view class="main-title">Dankal Template</view>
   <navigator class="sub-title" url="./wepyx">1.wepyx状态管理演示</navigator>
   <navigator class="sub-title" url="./auth">2.auth页面</navigator>
+  <navigator class="sub-title" url="./caculate">3.浮点型计算</navigator>
+  <navigator class="sub-title" url="./repeat">4.repeat自定义组件渲染</navigator>
 </template>
 
 <script>

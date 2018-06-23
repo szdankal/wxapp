@@ -17,11 +17,12 @@
   "author": "dankal",
   "license": "MIT",
   "dependencies": {
+    "big.js": "^5.1.2",
+    "weappx": "^0.1.0",
+    "weappx-wepy": "^0.1.0",
     "wepy": "^1.6.0",
     "wepy-async-function": "^1.4.4",
-    "wepy-com-toast": "^1.0.2",
-    "weappx": "^0.1.0",
-    "weappx-wepy": "^0.1.0"
+    "wepy-com-toast": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",

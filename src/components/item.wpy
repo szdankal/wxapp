@@ -1,0 +1,40 @@
+<style lang="less">
+
+</style>
+<template>
+    <view>
+        <text>{{item.name}}</text>
+        <text>{{item.age}}</text>
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class Item extends wepy.component {
+    data = {};
+
+    props={
+      item:{
+        type:Object
+      }
+    }
+
+    onLoad() {
+    }
+
+    onShow() {
+    }
+
+    onReady() {
+    }
+
+    methods = {};
+
+    network() {
+    }
+
+    handler() {
+    }
+  }
+</script>
+

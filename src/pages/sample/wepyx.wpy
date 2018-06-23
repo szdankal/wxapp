@@ -1,0 +1,63 @@
+<style lang="less">
+
+</style>
+<template>
+    <view>
+      <view>
+        <view>{{num}}</view>
+        <!--<block wx:for="{{list}}">-->
+        <button @tap="plus">sync add</button>
+      <button @tap="minus">sync minus</button>
+      <button @tap="asyncPlus">async add</button>
+        <!--</block>-->
+      </view>
+      <!--<view class="pop-bg" catchtouchmove="preventTouchMove"></view>-->
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import connector from 'weappx-wepy';
+  import {INCREMENT,DECREMENT} from '../../store/mutations/type';
+  import {ASYNC_INCREMENT} from '../../store/actions/type';
+
+  @connector.connect({
+    num: state => state.store.num
+  })
+  export default class Wepyx extends wepy.page {
+    data = {
+      list:new Array(10)
+    };
+    components = {};
+
+    onLoad() {
+    }
+
+    onShow() {
+    }
+
+    onReady() {
+    }
+
+    methods = {
+      plus(){
+        console.log(this.dispatcher,'dispatcher')
+       this.dispatcher.store[INCREMENT](1)
+      },
+      minus(){
+        this.dispatcher.store[DECREMENT](1)
+      },
+      asyncPlus(){
+
+        this.dispatcher.store[ASYNC_INCREMENT](1)
+      }
+    };
+
+    network() {
+    }
+
+    handler() {
+    }
+  }
+</script>
+
