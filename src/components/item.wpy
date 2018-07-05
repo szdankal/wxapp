@@ -5,13 +5,16 @@
     <view>
         <text>{{item.name}}</text>
         <text>{{item.age}}</text>
+
     </view>
 </template>
 
 <script>
   import wepy from 'wepy';
   export default class Item extends wepy.component {
-    data = {};
+    data = {
+
+    };
 
     props={
       item:{
@@ -28,9 +31,17 @@
     onReady() {
     }
 
-    methods = {};
+    methods = {
+
+    };
 
     network() {
+
+      return{
+        getList:async()=>{
+
+        }
+      }
     }
 
     handler() {

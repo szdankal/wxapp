@@ -16,6 +16,8 @@
   <navigator class="sub-title" url="./auth">2.auth页面</navigator>
   <navigator class="sub-title" url="./caculate">3.浮点型计算</navigator>
   <navigator class="sub-title" url="./repeat">4.repeat自定义组件渲染</navigator>
+  <navigator class="sub-title" url="./appointment">5.时间选择组件</navigator>
+
 </template>
 
 <script>

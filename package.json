@@ -18,11 +18,14 @@
   "license": "MIT",
   "dependencies": {
     "big.js": "^5.1.2",
+    "dayjs": "^1.6.10",
     "weappx": "^0.1.0",
     "weappx-wepy": "^0.1.0",
-    "wepy": "^1.6.0",
+    "wepy": "^1.7.2",
     "wepy-async-function": "^1.4.4",
-    "wepy-com-toast": "^1.0.2"
+    "wepy-com-toast": "^1.0.2",
+    "wepy-compiler-sass": "^1.3.12",
+    "wepy-web": "^1.6.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",
@@ -32,7 +35,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "cross-env": "^5.1.3",
-    "wepy-compiler-babel": "^1.5.1",
-    "wepy-compiler-less": "^1.3.10"
+    "wepy-compiler-babel": "^1.5.3",
+    "wepy-compiler-less": "^1.3.12"
   }
 }

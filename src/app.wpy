@@ -1,4 +1,4 @@
-<style>
+<style lang="scss">
   page{font-size: 28rpx;color: #4d4d4d;background: #F6F8FA;width: 100%;height: 100%;border-top: 1px solid rgba(182,182,182,0.12);letter-spacing: 2rpx;}
   page,view,input,textarea,cover-view,picker,navigator,form,scroll-view,image{box-sizing: border-box;  -moz-box-sizing: border-box; -webkit-box-sizing: border-box;-webkit-overflow-scrolling: touch;}
   image,input{vertical-align: middle}
@@ -15,7 +15,7 @@
   .pop-bg{width: 100%;height: 100%;position: fixed; top:0; left: 0;background: rgba(0,0,0,0.6);}
   .btn-default{width: 280rpx;line-height: 78rpx;text-align: center;font-size: 30rpx; border-radius: 8rpx;margin: 0 auto;}
   .shadow-black{-webkit-box-shadow:0px 2rpx 20rpx rgba(0,0,0,0.12);box-shadow:0px 2rpx 20rpx rgba(0,0,0,0.12);}
-  .float-left{float: left;}
+  @mixin float-left{float: left;}
   .float-right{float: right;}
   .clear{clear: both;}
   .clear::after{content: "";display: block;clear: both;}
@@ -40,7 +40,8 @@ export default class extends wepy.app {
       'pages/sample/wepyx',
       'pages/sample/auth',
       'pages/sample/caculate',
-      'pages/sample/repeat'
+      'pages/sample/repeat',
+      'pages/sample/appointment'
     ],
     window: {
       backgroundTextStyle: 'light',

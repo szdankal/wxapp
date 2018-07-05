@@ -1,0 +1,336 @@
+<style lang="less">
+  .calendar {
+    margin-top: 20rpx;
+    color: #141414;
+    background-color: #fff;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 52rpx;
+      height: 100rpx;
+      image {
+        width: 30rpx;
+        height: 25rpx;
+      }
+    }
+    .week {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 auto 20rpx auto;
+      padding: 0 32rpx;
+      height: 100rpx;
+      width: 650rpx;
+    }
+    .date-day {
+      display: flex;
+      flex-wrap: wrap;
+      width: 650rpx;
+      margin: 0 auto;
+
+      view {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        margin-right: 2rpx;
+        margin-bottom: 31rpx;
+        height: 90rpx;
+        width: 90rpx;
+      }
+      button {
+        display: inline-block;
+        background-color: #fff;
+        font-size: 24rpx;
+        height: 100%;
+        width: 100%;
+      }
+      button::after {
+        border: none !important;
+      }
+      .today-bg {
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        background-color: #57c29d;
+        border-radius: 50%;
+      }
+      .today {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .day-padding {
+        padding: 8rpx;
+      }
+      .isClick {
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        opacity: 0.9;
+        border-radius: 6rpx;
+        background: rgba(255, 204, 24, 1);
+      }
+    }
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 48rpx;
+    padding: 0 108rpx;
+    .now-date,
+    .appointment-date {
+      display: flex;
+      align-items: center;
+    }
+    .now-icon {
+      display: flex;
+      align-items: center;
+      margin-right: 20rpx;
+      height: 20rpx;
+      width: 20rpx;
+      border-radius: 50%;
+      background-color: #57c29d;
+    }
+    .appointment-icon {
+      display: flex;
+      align-items: center;
+      margin-right: 20rpx;
+      width: 26rpx;
+      height: 26rpx;
+      background: rgba(255, 204, 24, 1);
+      border-radius: 6rpx;
+    }
+  }
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90rpx;
+    color: #fff;
+    background: rgba(84, 204, 209, 1);
+    .picker {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .footer__title{
+      text-align: center;
+    }
+  }
+</style>
+<template>
+  <view>
+    <view class="calendar">
+      <view class="header">
+        <image src="http://p8p5w226i.bkt.clouddn.com/images/ic_left.png" @tap="preMonth()" />
+        <text>{{currentYear}}年-{{currentMonth+1}}月</text>
+        <image src="http://p8p5w226i.bkt.clouddn.com/images/ic_next_gray.png" @tap="nextMonth()" />
+      </view>
+      <view class="week">
+        <repeat for="{{weeks}}" item="item" index="index" key="index">
+          <text>{{item}}</text>
+        </repeat>
+      </view>
+      <view class="date-day">
+        <repeat for="{{lastMonthDays}}" index="index" item="item" key="index">
+          <view class="day-padding">
+            <button class="today" disabled="{{currentMonth > Month? false: true}}">{{item}}</button>
+          </view>
+        </repeat>
+        <repeat for="{{days}}" index="index" item="item" key="index">
+          <view class="day-padding">
+            <!-- {{item > toDay? false : true}} -->
+            <button class="{{clickedDay==index ? 'isClick' : ''}} {{item==currentDay ? 'today-bg' : ''}} today" @tap="clickDay('{{index}}')">{{item}}</button>
+          </view>
+        </repeat>
+      </view>
+    </view>
+    <view class="meta">
+      <view class="now-date">
+        <text class="now-icon" style="{{'background-color:'+mainColor}}"></text>
+        <text class="txt">当前日期</text>
+      </view>
+      <view class="appointment-date">
+        <text class="appointment-icon" style="{{'background-color:'+secondColor}}"></text>
+        <text class="txt">预约日期</text>
+      </view>
+    </view>
+    <view class="footer" style="{{'background-color:'+buttonColor}}">
+      <view class="picker">
+        <picker mode="time" class="full-w" value="{{startTime}}" start="{{startTime}}" @change="ChangeStartTime">
+          <view class="footer__title">选择具体时间</view>
+        </picker>
+
+      </view>
+    </view>
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import dayjs from 'dayjs'
+  export default class SelectDateTime extends wepy.component {
+    data = {
+      weeks: ['日', '一', '二', '三', '四', '五', '六'],
+      days: [],
+      currentYear: new Date().getFullYear(), //当前年份
+      currentMonth: new Date().getMonth(), //当前月份
+      currentDay: new Date().getDate(), //
+      clickedDay: null,
+      lastMonthDays: [],
+      isDisabled: true,
+      Month: '', //当前固定月份
+      Day: '', //当月固定日,
+    };
+    components = {};
+    props={
+      mainColor:{
+        type:String
+      },
+      secondColor:{
+        type:String
+      },
+      buttonColor:{
+        type:String
+      },
+      beforeDayClickable:{
+        type:Boolean,
+        default:false
+      },
+      beforeDateTimeSelectable:{
+        type:Boolean,
+        default:false
+      }
+    }
+    computed={
+      startTime(){
+        if(this.beforeDateTimeSelectable){
+          return '00:00'
+        }
+      else
+        return  !this.clickedDay?dayjs(new Date().getTime()).format('HH:mm'):'00:00'
+      }
+    }
+    onLoad() {
+      this.handler().newCalendar();
+      this.handler().checkMonth();
+    }
+
+    onShow() {
+    }
+
+    onReady() {
+    }
+
+    methods = {
+      clickDay(index) {
+        if(!this.beforeDayClickable&&this.currentDay>(index+1)){
+          return
+        }
+        if (this.currentDay == index + 1) {
+          this.clickedDay = null;
+          return;
+        }
+        this.clickedDay = index;
+        this.$apply();
+        let year = this.currentYear;
+        let month = this.currentMonth + 1;
+        let day = this.clickedDay ? this.clickedDay + 1 : this.Day;
+        if (month < 10) month = '0' + month;
+        if (day < 10) day = '0' + day;
+        let dateTime = `${year}-${month}-${day} ${this.startTime}`;
+        console.log(dateTime)
+      },
+      nextMonth() {
+        this.clickedDay = null;
+        this.days = [];
+        this.lastMonthDays = [];
+        this.currentMonth++;
+        if (this.currentMonth == new Date().getMonth()) {
+          this.currentDay = new Date().getDate();
+        } else {
+          this.currentDay = null;
+        }
+        this.handler().newCalendar();
+        if (this.currentMonth > 11) {
+          this.currentYear++;
+          this.currentMonth = 0;
+        }
+        this.handler().checkMonth();
+      },
+
+      preMonth() {
+        this.clickedDay = null;
+        this.days = [];
+        this.lastMonthDays = [];
+        this.currentMonth--;
+        if (this.currentMonth == new Date().getMonth()) {
+          this.currentDay = new Date().getDate();
+        } else {
+          this.currentDay = null;
+        }
+        this.handler().newCalendar();
+        if (this.currentMonth < 1) {
+          this.currentYear--;
+          this.currentMonth = 11;
+        }
+        this.handler().checkMonth();
+      },
+      ChangeStartTime(e) {
+        this.startTime = e.detail.value;
+        let year = this.currentYear;
+        let month = this.currentMonth + 1;
+        let day = this.clickedDay ? this.clickedDay + 1 : this.Day;
+        if (month < 10) month = '0' + month;
+        if (day < 10) day = '0' + day;
+        let dateTime = `${year}-${month}-${day} ${e.detail.value}`;
+        this.$emit('onDateTimeSelectd',dateTime)
+      },
+    };
+
+    network() {
+    }
+
+    handler() {
+      let self = this;
+      return {
+        newCalendar() {
+          let getLastDay = new Date(
+            self.currentYear,
+            self.currentMonth + 1,
+            0,
+          ).getDate(); //把时间设为下个月的1号 然后天数减去1 就可以得到 当前月的最后一天;
+          let getWeek = new Date(self.currentYear, self.currentMonth, 1).getDay(); //这个月的第一天是星期几
+          let getLastMonth = new Date(self.currentYear, self.currentMonth, 0).getDate(); //上个月的最后一天
+          for (let i = 1; i <= getLastDay; i++) {
+            self.days.push(i);
+          }
+          for (let i = 0; i < getWeek; i++) {
+            self.lastMonthDays.unshift(getLastMonth);
+            getLastMonth--;
+          }
+        },
+        checkMonth() {
+          self.Month = new Date().getMonth();
+          self.Day = new Date().getDate();
+          if (self.currentMonth >= self.Month) {
+            self.isDisabled = false;
+            self.$apply();
+            console.log(self.currentMonth, self.Month);
+          } else {
+            self.isDisabled = true;
+            self.$apply();
+          }
+        },
+      };
+    }
+  }
+</script>
+

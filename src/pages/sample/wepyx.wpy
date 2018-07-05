@@ -1,10 +1,11 @@
-<style lang="less">
+<style lang="scss">
+
 
 </style>
 <template>
     <view>
       <view>
-        <view>{{num}}</view>
+        <view >{{num}}</view>
         <!--<block wx:for="{{list}}">-->
         <button @tap="plus">sync add</button>
       <button @tap="minus">sync minus</button>
@@ -54,9 +55,12 @@
     };
 
     network() {
+
     }
 
+
     handler() {
+
     }
   }
 </script>
