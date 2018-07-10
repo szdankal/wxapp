@@ -41,7 +41,8 @@ export default class extends wepy.app {
       'pages/sample/auth',
       'pages/sample/caculate',
       'pages/sample/repeat',
-      'pages/sample/appointment'
+      'pages/sample/appointment',
+      'pages/sample/star-level'
     ],
     window: {
       backgroundTextStyle: 'light',
