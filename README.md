@@ -52,9 +52,9 @@ source code ，主要工作区域
 
 ## TroubleShooting
 
-#### 无法在微信支付回调里使用 `reLaunch` ？报错 `fail can not invoke reLaunch in background` 。 2018-07-17
+#### 无法在微信支付回调里使用 `reLaunch` ？报错 `fail can not invoke reLaunch in background` 。 2018-07-17
 
-是的。这是微信的 bug 。想别的办法吧，例如使用 `switchTab` 或 `redirectTo` 。
+是的。这是微信的 bug 。想别的办法吧，例如使用 `switchTab` 或 `redirectTo` 。
 
 #### 在 app.wpy 的 config 里配 pages 时，二级目录需要排在一级目录的后面。 2018-07-17
 
