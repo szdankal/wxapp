@@ -1,0 +1,198 @@
+<!-- 搜索地址 -->
+<template>
+  <view class='address-search'
+        wx:if="{{baseImgUrl}}">
+    <view class="address-search__header">
+      <view class="address-search__city">
+        <picker mode="region"
+                @change="regionChange"
+                value="{{region}}"
+                custom-item="{{customItem}}">
+          <view class="picker">
+            {{region[1]}}
+            <image class="address-new__enter"
+                   src="{{baseImgUrl}}ic_location_drop.png" />
+          </view>
+        </picker>
+      </view>
+      <view class='component-search-bar'>
+        <input @input="handleInput" />
+      </view>
+    </view>
+    <view class="address-search__body">
+      <view class='component-address-map-list'>
+        <repeat for="{{itemList}}"
+                index="index"
+                key="index"
+                item="item">
+          <view class="component-address-map-list__divider"
+                wx:if="{{index > 0}}"></view>
+          <view class='component-address-map-item'
+                @tap="tapSelect({{item}})">
+            <view class="component-address-map-item__main">
+              {{item.title}}
+            </view>
+            <view class="component-address-map-item__detail">
+              <view class="component-address-map-item__text">
+                {{item.address}}
+              </view>
+              <view class="component-address-map-item__distance"
+                    wx:if="{{item._distance !== undefined}}">
+                {{item._distance}} m
+              </view>
+            </view>
+          </view>
+        </repeat>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import map from '@/service/qqmap';
+
+import connector from 'weappx-wepy';
+import {
+  SET_ADDRESS_TEXT,
+  SET_LONGITUDE,
+  SET_LATITUDE
+} from '@/store/mutations/type';
+@connector.connect({
+  addressText: state => state.store.addressText,
+  longitude: state => state.store.longitude,
+  latitude: state => state.store.latitude
+})
+export default class AddressSearch extends wepy.page {
+  config = {
+    navigationBarTitleText: '搜索地址'
+  };
+
+  data = {
+    searchContent: '',
+    region: ['广东省', '深圳市', '龙岗区'],
+    itemList: []
+  };
+
+  components = {};
+
+  methods = {
+    handleInput(event) {
+      this.searchContent = event.detail.value.trim();
+      if (this.searchContent.length) {
+        this.network().getSuggestion();
+      } else {
+        this.itemList = [];
+      }
+    },
+    regionChange(event) {
+      console.log(event.detail.value);
+      this.region = event.detail.value;
+    },
+    tapSelect(item) {
+      this.dispatcher.store[SET_ADDRESS_TEXT](item.address);
+      this.dispatcher.store[SET_LATITUDE](item.location.lat);
+      this.dispatcher.store[SET_LONGITUDE](item.location.lng);
+      wepy.navigateBack({
+        delta: 2 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+      });
+    }
+  };
+
+  network() {
+    return {
+      getSuggestion: async () => {
+        let result = await map.getSuggestion({
+          keyword: this.searchContent,
+          region: this.region[1]
+        });
+
+        this.itemList = result.data;
+        this.$apply();
+      }
+    };
+  }
+
+  events = {};
+
+  watch = {};
+
+  computed = {
+    baseImgUrl() {
+      // 请修改成你在 globalData 里存放的 imgBaseUrl 并修改 address/ 中使用的所有 image
+      // return this.$parent.globalData.imgBaseUrl;
+      return 'https://cdn.dankal.cn/wxcgt/images/';
+    }
+  };
+
+  onLoad() {}
+
+  onShow() {}
+}
+</script>
+
+<style lang='less'>
+.address-search {
+  .address-search__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15rpx 20rpx;
+    background-color: #fff;
+    .address-search__city {
+      margin: 0 20rpx;
+      .picker {
+        image {
+          width: 20rpx;
+          height: 12rpx;
+        }
+      }
+    }
+  }
+
+  .component-search-bar {
+    flex: 1;
+    background-color: #f2f2f2;
+    // width: 530rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border-radius: 10rpx;
+    color: #999999;
+    font-size: 28rpx;
+    text-align: center;
+  }
+
+  .address-search__body {
+    .component-address-map-list {
+      padding: 30rpx 45rpx;
+      .component-address-map-list__divider {
+        border-top: 1rpx solid #e1e1e1;
+        margin-bottom: 20rpx;
+      }
+
+      .component-address-map-item {
+        .component-address-map-item__main {
+          color: #333333;
+          font-size: 26rpx;
+          margin-bottom: 10rpx;
+          font-weight: bold;
+        }
+        .component-address-map-item__detail {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          color: #999999;
+          font-size: 22rpx;
+          margin-bottom: 30rpx;
+          .component-address-map-item__text {
+          }
+          .component-address-map-item__distance {
+            margin-left: 10rpx;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+}
+</style>

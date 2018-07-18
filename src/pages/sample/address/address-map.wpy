@@ -1,0 +1,227 @@
+<!-- 地图选择地址 -->
+<template>
+  <view class='address-map'
+        wx:if="{{baseImgUrl}}">
+    <view class="address-search-entry">
+      <view class="address-search-button"
+            @tap="goTo('/pages/sample/address/address-search')">
+        搜索
+      </view>
+    </view>
+    <view class="map-wrapper">
+      <map id="map"
+           latitude="{{mapLocation.latitude}}"
+           longitude="{{mapLocation.longitude}}"
+           class="map__main"
+           @regionchange="regionchange"></map>
+      <cover-view class="map__reticle">
+        <cover-image src="{{baseImgUrl}}ic_order_location.png" />
+      </cover-view>
+    </view>
+    <view class="address-map-item-list">
+      <view class='component-address-map-list'>
+        <repeat for="{{itemList}}"
+                index="index"
+                key="index"
+                item="item">
+          <view class="component-address-map-list__divider"
+                wx:if="{{index > 0}}"></view>
+          <view class='component-address-map-item'
+                @tap="tapSelect({{item}})">
+            <view class="component-address-map-item__main">
+              {{item.title}}
+            </view>
+            <view class="component-address-map-item__detail">
+              <view class="component-address-map-item__text">
+                {{item.address}}
+              </view>
+              <view class="component-address-map-item__distance"
+                    wx:if="{{item._distance !== undefined}}">
+                {{item._distance}} m
+              </view>
+            </view>
+          </view>
+        </repeat>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import map from '@/service/qqmap';
+
+import connector from 'weappx-wepy';
+import {
+  SET_ADDRESS_TEXT,
+  SET_LONGITUDE,
+  SET_LATITUDE
+} from '@/store/mutations/type';
+@connector.connect({
+  addressText: state => state.store.addressText,
+  longitude: state => state.store.longitude,
+  latitude: state => state.store.latitude
+})
+export default class AddressMap extends wepy.page {
+  config = {
+    navigationBarTitleText: '选择地址'
+  };
+
+  data = {
+    mapLocation: {
+      longitude: 0,
+      latitude: 0
+    },
+    mapContext: null,
+    itemList: []
+  };
+
+  components = {};
+
+  methods = {
+    regionchange(event) {
+      console.log(event);
+      if (event.type === 'end') {
+        // https://github.com/Tencent/wepy/issues/1207#issuecomment-381468972
+        this.mapContext.getCenterLocation({
+          success: result => {
+            this.mapLocation.longitude = result.longitude;
+            this.mapLocation.latitude = result.latitude;
+            this.$apply();
+            this.network().findPlace();
+          }
+        });
+      }
+    },
+    goTo(targetPath) {
+      wepy.navigateTo({ url: targetPath });
+    },
+    tapSelect(item) {
+      this.dispatcher.store[SET_ADDRESS_TEXT](item.address);
+      this.dispatcher.store[SET_LATITUDE](item.location.lat);
+      this.dispatcher.store[SET_LONGITUDE](item.location.lng);
+      wepy.navigateBack({
+        delta: 1 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+      });
+    }
+  };
+
+  network() {
+    return {
+      findPlace: async () => {
+        let { result } = await map.findPlace(this.mapLocation);
+        this.itemList = result.pois;
+        this.$apply();
+      },
+      search: async () => {
+        let nearBy = await map.search({
+          keyword: '',
+          location: this.mapLocation
+        });
+        console.log(nearBy, 'nearBy');
+      }
+    };
+  }
+
+  events = {};
+
+  watch = {};
+
+  computed = {
+    baseImgUrl() {
+      // 请修改成你在 globalData 里存放的 imgBaseUrl 并修改 address/ 中使用的所有 image
+      // return this.$parent.globalData.imgBaseUrl;
+      return 'https://cdn.dankal.cn/wxcgt/images/';
+    }
+  };
+
+  async onLoad() {
+    const currentLocation = await wepy.getLocation({
+      type: 'gcj02' //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wepy.openLocation的坐标,
+    });
+
+    this.mapLocation.longitude = currentLocation.longitude;
+    this.mapLocation.latitude = currentLocation.latitude;
+
+    this.mapContext = wepy.createMapContext('map');
+    this.$apply();
+    this.network().findPlace();
+  }
+}
+</script>
+
+<style lang='less'>
+.address-map {
+  .address-search-entry {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 15rpx 20rpx;
+    background-color: #fff;
+    .address-search-button {
+      flex: 1;
+      background-color: #f2f2f2;
+      // width: 530rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      border-radius: 10rpx;
+      color: #999999;
+      font-size: 28rpx;
+      text-align: center;
+    }
+  }
+  .map-wrapper {
+    position: relative;
+    .map__main {
+      width: 100%;
+      height: 400rpx;
+    }
+    .map__reticle {
+      cover-image {
+        width: 50rpx;
+        height: 65rpx;
+      }
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 90rpx;
+      color: red;
+      transform: translate(-50%, -50%);
+    }
+  }
+  .address-map-item-list {
+    background-color: #fff;
+    .component-address-map-list {
+      padding: 30rpx 45rpx;
+      .component-address-map-list__divider {
+        border-top: 1rpx solid #e1e1e1;
+        margin-bottom: 20rpx;
+      }
+
+      .component-address-map-item {
+        .component-address-map-item__main {
+          color: #333333;
+          font-size: 26rpx;
+          margin-bottom: 10rpx;
+          font-weight: bold;
+        }
+        .component-address-map-item__detail {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          color: #999999;
+          font-size: 22rpx;
+          margin-bottom: 30rpx;
+          .component-address-map-item__text {
+          }
+          .component-address-map-item__distance {
+            margin-left: 10rpx;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
