@@ -1,0 +1,449 @@
+<!-- 新建地址 -->
+<template>
+  <view class='address-new'
+        wx:if="{{baseImgUrl}}">
+    <view class="address-new__form-content">
+      <view class="address-new__form-content-row">
+        <view class="address-new__label">
+          收货人：
+        </view>
+        <view class="address-new__input">
+          <input value="{{receiveName}}"
+                 maxlength="10"
+                 @input="handleInput({{'receiveName'}})"
+                 placeholder="请填写收货人" />
+        </view>
+      </view>
+      <view class="address-new__form-content-row">
+        <view class="address-new__label">
+          性别：
+        </view>
+        <view class="address-new__input"
+              @tap="switchGender">
+          <view class="address-new__male">
+            <image src="{{gender === 1 ? baseImgUrl + 'ic_address_o2.png' : baseImgUrl + 'ic_address_o.png'}}" /> 先生
+          </view>
+          <view class="address-new__famale">
+            <image src="{{gender === 0 ? baseImgUrl + 'ic_address_o2.png' : baseImgUrl + 'ic_address_o.png'}}" /> 女士
+          </view>
+        </view>
+      </view>
+      <view class="address-new__form-content-row">
+        <view class="address-new__label">
+          联系方式：
+        </view>
+        <view class="address-new__input">
+          <input value="{{receiveMobile}}"
+                 type="number"
+                 maxlength="11"
+                 @input="handleInput({{'receiveMobile'}})"
+                 placeholder="请填写电话号码" />
+        </view>
+      </view>
+      <view class="address-new__form-content-row"
+            @tap="goTo({{'/pages/sample/address/address-map'}})">
+        <view class="address-new__label">
+          收货地址：
+        </view>
+        <view class="address-new__input">
+          <input class="address-new__address-text"
+                 value="{{addressText}}"
+                 placeholder="请选择所在地区"
+                 disabled />
+          <image class="address-new__enter"
+                 src="{{baseImgUrl}}ic_location_enter.png" />
+        </view>
+      </view>
+      <view class="address-new__form-content-row">
+        <view class="address-new__label">
+          门牌号：
+        </view>
+        <view class="address-new__input">
+          <input value="{{houseNumber}}"
+                 maxlength="10"
+                 @input="handleInput({{'houseNumber'}})"
+                 placeholder="请输入门牌号" />
+        </view>
+      </view>
+      <view class="address-new__form-content-row">
+        <view class="address-new__label">
+          标签：
+        </view>
+        <view class="address-new__input">
+          <repeat for="{{tagList}}"
+                  index="index"
+                  key="index"
+                  item="tag">
+            <view @tap="switchTag({{tag.uuid}})"
+                  class="address-new__tag {{tag.uuid === tagUuid ? 'address-new__tag--active' : ''}}"
+                  state="tag">
+              {{tag.text}}
+            </view>
+          </repeat>
+        </view>
+      </view>
+      <view class="address-new__toggle-default-address">
+        <view class="address-new__toogle-default-address__main">
+          <view class="address-new__toggle-default-address__text">
+            设为默认地址
+          </view>
+          <view class="address-new__toggle-default-address__switch">
+            <switch checked="{{defaultReceive}}"
+                    color="#7A695A"
+                    @change="switchDefault"></switch>
+          </view>
+        </view>
+        <view class="address-new__toggle-default-address__description">
+          注：每次下单时会使用该地址
+        </view>
+      </view>
+    </view>
+    <view class="address-new__save-button"
+          @tap="tapSave">
+      保存
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+import connector from 'weappx-wepy';
+import {
+  SET_ADDRESS_TEXT,
+  SET_LONGITUDE,
+  SET_LATITUDE,
+  SET_MOBILE
+} from '@/store/mutations/type';
+@connector.connect({
+  mobile: state => state.store.mobile,
+  addressText: state => state.store.addressText,
+  longitude: state => state.store.longitude,
+  latitude: state => state.store.latitude
+})
+export default class AddressNew extends wepy.page {
+  config = {
+    navigationBarTitleText: '新建地址'
+  };
+
+  data = {
+    // addressObject
+    defaultReceive: false,
+    gender: 1,
+    houseNumber: '',
+    receiveMobile: '',
+    receiveName: '',
+    tagUuid: '',
+    userUuid: '',
+    uuid: '',
+    // addressObject end
+    postData: {},
+    tagList: [
+      {
+        text: '家',
+        uuid: 'aaaa'
+      },
+      {
+        text: '公司',
+        uuid: 'bbbb'
+      },
+      {
+        text: '学校',
+        uuid: 'cccc'
+      }
+    ]
+  };
+
+  components = {};
+
+  methods = {
+    goTo(targetPath) {
+      wepy.navigateTo({ url: targetPath });
+    },
+    handleInput(key, event) {
+      this[key] = event.detail.value.trim();
+    },
+    switchGender() {
+      if (this.gender === 0) {
+        this.gender = 1;
+      } else {
+        this.gender = 0;
+      }
+    },
+    switchTag(uuid) {
+      this.tagUuid = uuid;
+    },
+    switchDefault() {
+      this.defaultReceive = !this.defaultReceive;
+    },
+    tapSave() {
+      console.log('Save tapped');
+      this.network().postReceivePutUserReceive();
+    }
+  };
+
+  network() {
+    return {
+      postReceivePutUserReceive: async () => {
+        // 必填项校验
+        if (this.handler().postDataFormatter()) {
+          return;
+        }
+        console.log(postData, 'postData');
+        wepy.showToast({
+          title: '存了存了', //提示的内容,
+          icon: 'success', //图标,
+          duration: 2000, //延迟时间,
+          mask: true //显示透明蒙层，防止触摸穿透,
+        });
+
+        /*---------------------------------------------------
+            保存时，根据 navigationBarTitleText 判断调用相应接口
+          ---------------------------------------------------*/
+        // let data;
+        // let statusCode;
+        // if (this.config.navigationBarTitleText === '修改地址') {
+        //   ({ data, statusCode } = await postMiniReceivePostUserReceiveDetail(
+        //     this.postData
+        //   ));
+        // } else {
+        //   ({ data, statusCode } = await postMiniReceivePutUserReceive(
+        //     this.postData
+        //   ));
+        // }
+
+        // if (statusCode === 200) {
+        //   wepy.showToast({
+        //     title: '保存成功', //提示的内容,
+        //     icon: 'success', //图标,
+        //     duration: 1000, //延迟时间,
+        //     mask: true //显示透明蒙层，防止触摸穿透,
+        //   });
+
+        //   setTimeout(() => {
+        //     this.dispatcher.store[SET_ADDRESS_TEXT](null);
+        //     this.dispatcher.store[SET_LATITUDE](null);
+        //     this.dispatcher.store[SET_LONGITUDE](null);
+        //     wepy.navigateBack({
+        //       delta: 1 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+        //     });
+        //   }, 1000);
+        // }
+      },
+      getReceiveGetUserReceiveDetail: async addressUuid => {
+        /*----------------------------------
+            编辑地址时，获取地址详情并放到页面中
+          ----------------------------------*/
+        // let { data, statusCode } = await getMiniReceiveGetUserReceiveDetail(
+        //   addressUuid
+        // );
+        // if (statusCode === 200) {
+        //   this.defaultReceive = data.defaultReceive;
+        //   this.gender = data.gender;
+        //   this.houseNumber = data.houseNumber;
+        //   this.receiveMobile = data.receiveMobile;
+        //   this.receiveName = data.receiveName;
+        //   this.tagUuid = data.tagUuid;
+        //   this.userUuid = data.userUuid;
+        //   this.uuid = data.uuid;
+        //   this.dispatcher.store[SET_ADDRESS_TEXT](data.addressText);
+        //   this.dispatcher.store[SET_LATITUDE](data.latitude);
+        //   this.dispatcher.store[SET_LONGITUDE](data.longitude);
+        //   this.$apply();
+        // }
+      }
+    };
+  }
+
+  handler() {
+    return {
+      postDataFormatter: () => {
+        if (!this.receiveName) {
+          wepy.showToast({
+            title: '请填写收货人', //提示的内容,
+            icon: 'none', //图标,
+            duration: 1000, //延迟时间,
+            mask: true //显示透明蒙层，防止触摸穿透,
+          });
+          return true;
+        }
+        if (!this.receiveMobile) {
+          wepy.showToast({
+            title: '请填写联系方式', //提示的内容,
+            icon: 'none', //图标,
+            duration: 1000, //延迟时间,
+            mask: true //显示透明蒙层，防止触摸穿透,
+          });
+          return true;
+        }
+        if (!this.latitude || !this.longitude || !this.addressText) {
+          wepy.showToast({
+            title: '请重新选择地址', //提示的内容,
+            icon: 'none', //图标,
+            duration: 1000, //延迟时间,
+            mask: true //显示透明蒙层，防止触摸穿透,
+          });
+          return true;
+        }
+        if (!this.houseNumber) {
+          wepy.showToast({
+            title: '请填写门牌号', //提示的内容,
+            icon: 'none', //图标,
+            duration: 1000, //延迟时间,
+            mask: true //显示透明蒙层，防止触摸穿透,
+          });
+          return true;
+        }
+        if (!this.tagUuid) {
+          wepy.showToast({
+            title: '请选择标签', //提示的内容,
+            icon: 'none', //图标,
+            duration: 1000, //延迟时间,
+            mask: true //显示透明蒙层，防止触摸穿透,
+          });
+          return true;
+        }
+
+        this.postData = {
+          defaultReceive: this.defaultReceive,
+          gender: this.gender,
+          houseNumber: this.houseNumber,
+          latitude: this.latitude,
+          longitude: this.longitude,
+          addressText: this.addressText,
+          receiveMobile: this.receiveMobile,
+          receiveName: this.receiveName,
+          storeUuid: this.storeUuid,
+          tagUuid: this.tagUuid,
+          userUuid: this.userUuid,
+          uuid: this.uuid
+        };
+        return false;
+      }
+    };
+  }
+
+  events = {};
+
+  watch = {};
+
+  computed = {
+    baseImgUrl() {
+      // 请修改成你在 globalData 里存放的 imgBaseUrl 并修改 address/ 中使用的所有 image
+      // return this.$parent.globalData.imgBaseUrl;
+      return 'https://cdn.dankal.cn/wxcgt/images/';
+    }
+  };
+
+  onLoad(options) {
+    // 如果是编辑地址，传入该地址的 uuid
+    if (options.uuid) {
+      this.config.navigationBarTitleText = '修改地址';
+      this.network().getReceiveGetUserReceiveDetail(options.uuid);
+    } else {
+      // 如果是新增地址，可以在其它地方提前把当前用户的手机号存入 store ，在这里取出并使用
+      this.receiveMobile = this.mobile;
+    }
+    // 默认选中的标签
+    this.tagUuid = this.tagList[0].uuid;
+  }
+
+  onShow() {}
+}
+</script>
+
+<style lang='less'>
+.address-new {
+  .address-new__form-content {
+    background-color: #fff;
+
+    .address-new__form-content-row {
+      border-bottom: 1rpx solid #e9e9e9;
+      padding: 30rpx 0;
+      margin: 0 40rpx;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .address-new__label {
+        width: 150rpx;
+      }
+      .address-new__input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex: 1;
+        input {
+          flex: 1;
+        }
+        input.address-new__address-text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        image {
+          width: 30rpx;
+          height: 30rpx;
+        }
+        image.address-new__enter {
+          width: 20rpx;
+          margin-right: 20rpx;
+        }
+        .address-new__male {
+          margin-right: 50rpx;
+        }
+        .address-new__female {
+        }
+        .address-new__tag {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          padding: 10rpx 15rpx;
+          color: #3c3938;
+          font-size: 24rpx;
+          border-radius: 10rpx;
+          border: 2rpx solid rgba(60, 57, 56, 1);
+          margin-left: 20rpx;
+          white-space: nowrap;
+          min-width: 115rpx;
+          border-radius: 999rpx;
+        }
+        .address-new__tag--active {
+          color: #796859;
+          border-color: #796859;
+        }
+      }
+    }
+
+    .address-new__toggle-default-address {
+      padding: 30rpx 40rpx;
+      .address-new__toogle-default-address__main {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .address-new__toggle-default-address__text {
+          font-size: 28rpx;
+          color: #141414;
+        }
+        .address-new__toggle-default-address__switch {
+        }
+      }
+      .address-new__toggle-default-address__description {
+        font-size: 24rpx;
+        color: #999;
+      }
+    }
+  }
+  .address-new__save-button {
+    margin: 70rpx 40rpx;
+    height: 90rpx;
+    line-height: 90rpx;
+    background-color: #c79a49;
+    font-size: 32rpx;
+    color: #fff;
+    text-align: center;
+  }
+}
+</style>
