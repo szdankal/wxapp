@@ -16,7 +16,8 @@
         </picker>
       </view>
       <view class='component-search-bar'>
-        <input @input="handleInput" />
+        <input placeholder="搜索地址"
+               @input="handleInput" />
       </view>
     </view>
     <view class="address-search__body">
@@ -94,7 +95,7 @@ export default class AddressSearch extends wepy.page {
       this.dispatcher.store[SET_LATITUDE](item.location.lat);
       this.dispatcher.store[SET_LONGITUDE](item.location.lng);
       wepy.navigateBack({
-        delta: 2 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+        delta: 1 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
       });
     }
   };

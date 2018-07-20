@@ -60,7 +60,7 @@
         </view>
         <view class="address-new__input">
           <input value="{{houseNumber}}"
-                 maxlength="10"
+                 maxlength="20"
                  @input="handleInput({{'houseNumber'}})"
                  placeholder="请输入门牌号" />
         </view>
@@ -112,8 +112,7 @@ import connector from 'weappx-wepy';
 import {
   SET_ADDRESS_TEXT,
   SET_LONGITUDE,
-  SET_LATITUDE,
-  SET_MOBILE
+  SET_LATITUDE
 } from '@/store/mutations/type';
 @connector.connect({
   mobile: state => state.store.mobile,
@@ -151,7 +150,8 @@ export default class AddressNew extends wepy.page {
         text: '学校',
         uuid: 'cccc'
       }
-    ]
+    ],
+    editUuid: null
   };
 
   components = {};
@@ -193,16 +193,16 @@ export default class AddressNew extends wepy.page {
         wepy.showToast({
           title: '存了存了', //提示的内容,
           icon: 'success', //图标,
-          duration: 2000, //延迟时间,
+          duration: 1000, //延迟时间,
           mask: true //显示透明蒙层，防止触摸穿透,
         });
 
         /*---------------------------------------------------
-            保存时，根据 navigationBarTitleText 判断调用相应接口
+            保存时，根据 editUuid 判断调用相应接口
           ---------------------------------------------------*/
         // let data;
         // let statusCode;
-        // if (this.config.navigationBarTitleText === '修改地址') {
+        // if (!!this.editUuid) {
         //   ({ data, statusCode } = await postMiniReceivePostUserReceiveDetail(
         //     this.postData
         //   ));
@@ -224,18 +224,26 @@ export default class AddressNew extends wepy.page {
         //     this.dispatcher.store[SET_ADDRESS_TEXT](null);
         //     this.dispatcher.store[SET_LATITUDE](null);
         //     this.dispatcher.store[SET_LONGITUDE](null);
-        //     wepy.navigateBack({
-        //       delta: 1 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
-        //     });
+        // let pages = getCurrentPages();
+        // if (
+        //   // 判断能否直接退回地址管理页面
+        //   pages[pages.length - 2].route === 'pages/sample/address/address-manage'
+        // ) {
+        //   wepy.navigateBack({
+        //     delta: 1 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+        //   });
+        // } else {
+        //   wepy.redirectTo({ url: '/pages/sample/address/address-manage' });
+        // }
         //   }, 1000);
         // }
       },
-      getReceiveGetUserReceiveDetail: async addressUuid => {
+      getReceiveGetUserReceiveDetail: async () => {
         /*----------------------------------
             编辑地址时，获取地址详情并放到页面中
           ----------------------------------*/
         // let { data, statusCode } = await getMiniReceiveGetUserReceiveDetail(
-        //   addressUuid
+        //   this.editUuid
         // );
         // if (statusCode === 200) {
         //   this.defaultReceive = data.defaultReceive;
@@ -294,15 +302,15 @@ export default class AddressNew extends wepy.page {
           });
           return true;
         }
-        if (!this.tagUuid) {
-          wepy.showToast({
-            title: '请选择标签', //提示的内容,
-            icon: 'none', //图标,
-            duration: 1000, //延迟时间,
-            mask: true //显示透明蒙层，防止触摸穿透,
-          });
-          return true;
-        }
+        // if (!this.tagUuid) {
+        //   wepy.showToast({
+        //     title: '请选择标签', //提示的内容,
+        //     icon: 'none', //图标,
+        //     duration: 1000, //延迟时间,
+        //     mask: true //显示透明蒙层，防止触摸穿透,
+        //   });
+        //   return true;
+        // }
 
         this.postData = {
           defaultReceive: this.defaultReceive,
@@ -338,14 +346,15 @@ export default class AddressNew extends wepy.page {
   onLoad(options) {
     // 如果是编辑地址，传入该地址的 uuid
     if (options.uuid) {
-      this.config.navigationBarTitleText = '修改地址';
-      this.network().getReceiveGetUserReceiveDetail(options.uuid);
+      wepy.setNavigationBarTitle({ title: '编辑地址' });
+      this.editUuid = options.uuid;
+      this.network().getReceiveGetUserReceiveDetail();
     } else {
       // 如果是新增地址，可以在其它地方提前把当前用户的手机号存入 store ，在这里取出并使用
       this.receiveMobile = this.mobile;
     }
     // 默认选中的标签
-    this.tagUuid = this.tagList[0].uuid;
+    // this.tagUuid = this.tagList[0].uuid;
   }
 
   onShow() {}
@@ -400,10 +409,10 @@ export default class AddressNew extends wepy.page {
           align-items: center;
           justify-content: center;
           padding: 10rpx 15rpx;
-          color: #3c3938;
+          color: #979797;
           font-size: 24rpx;
           border-radius: 10rpx;
-          border: 2rpx solid rgba(60, 57, 56, 1);
+          border: 1rpx solid #979797;
           margin-left: 20rpx;
           white-space: nowrap;
           min-width: 115rpx;
@@ -412,6 +421,7 @@ export default class AddressNew extends wepy.page {
         .address-new__tag--active {
           color: #796859;
           border-color: #796859;
+          border-width: 2rpx;
         }
       }
     }
