@@ -94,7 +94,7 @@ export default class AddressMap extends wepy.page {
       }
     },
     goTo(targetPath) {
-      wepy.navigateTo({ url: targetPath });
+      wepy.redirectTo({ url: targetPath });
     },
     tapSelect(item) {
       this.dispatcher.store[SET_ADDRESS_TEXT](item.address);
