@@ -1,7 +1,7 @@
 const theMap = require('./qqmap-wx-jssdk.js');
-import {qqMapApiKey} from '@/env';
+import env from '@/configs/env';
 
-const API_KEY = qqMapApiKey;
+const API_KEY = env.qqMapApiKey;
 let apiRegion = '深圳市';
 
 const myMap = new theMap({key: API_KEY});

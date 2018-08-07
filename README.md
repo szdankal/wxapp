@@ -1,46 +1,23 @@
 ## 项目结构 | Project Structure
 
-- [`src`](#src)
-  - [`assets`](#assets)
-  - [`components`](#components)
-  - [`env.js`](#envjs)
-  - [`mixins`](#mixins)
-  - [`pages`](#pages)
-  - [`store`](#store)
-  - [`service`](#service)
-  - [`app.wpy`](#appwpy)
+```cmd
+src
+    ├── api         #api请求
+    ├── components  #全局组件
+    ├── configs     #全局配置文件
+    ├── mixins      #mixins
+    ├── pages       #页面文件
+    │   └── sample  
+    │       └── address
+    ├── service  
+    └── store      #全局状态管理
+        ├── actions
+        └── mutations
 
-### src
 
-source code ，主要工作区域
+```
 
-### assets
 
-图片之类的媒体文件放这里，例如 tabBar 用到的图片
-
-### components
-
-组件
-
-### env.js
-
-环境变量放这里，例如 dev 、 prod 环境的 baseUrl 等
-
-### mixins
-
-能在多个页面复用的代码放这里
-
-### pages
-
-页面
-
-### store
-
-[weappx](https://github.com/tolerance-go/weappx) 相关代码放这里
-
-### service
-
-接口调用、请求交互放这里
 
 ### app.wpy
 

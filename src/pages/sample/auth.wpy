@@ -1,5 +1,5 @@
 
-<style lang="less">
+<style lang="scss">
   page {background-color: #fff;}
   .authorize {padding: 73rpx;}
   .authorize-info{width:610rpx;margin: 0 auto;padding:88rpx 0 48rpx;text-align: center; font-size:24rpx;color: #9b9b9b;font-weight: bolder;border-bottom: 1px solid #E5E5E5  }
@@ -13,7 +13,7 @@
   .authorize-sub-bt{width: 500rpx;height: 76rpx;line-height: 76rpx;background: #5FBA5D;font-size: 28rpx;color: #ffffff;}
   .pop-bg{width: 100%;height: 100%;position: fixed; top:0; left: 0;background: rgba(0,0,0,0.7)}
   .pop-main{position: fixed; top:50%; left: 50%;background: #ffffff;border-radius: 20rpx;}
-  .pop-authorize{text-align: center;padding-top:120rpx;  width:580rpx;height: 382rpx;margin-left: -290rpx;margin-top: -200rpx; background: url("https://cdn.dankal.cn/wxapp-shijian/imgpic_bg_login.png");background-size:100% 100%;}
+  .pop-authorize{text-align: center;padding-top:120rpx;  width:580rpx;height: 382rpx;margin-left: -290rpx;margin-top: -200rpx; background: url("https://cdn.dankal.cn/wxapp-sw/images/pic_bg_login.png");background-size:100% 100%;}
   .pop-authorize-til{font-size:34rpx;font-weight: bolder }
   .pop-authorize-bt{width: 460rpx;line-height: 106rpx;border-radius: 8rpx;background:#5FBA5D;font-size: 32rpx; color: #ffffff;margin:49rpx auto }
   .pop-authorize-bt-ic{width: 60rpx;height: 60rpx;margin-right: 22rpx;}
@@ -42,10 +42,10 @@
   <view class="pop-main pop-authorize" wx:if="{{isShowBindPhoneModal}}">
     <view class="pop-authorize-til">选择登录方式</view>
     <button class="pop-authorize-bt" open-type="getPhoneNumber">
-      <image class="pop-authorize-bt-ic" src="https://cdn.dankal.cn/wxapp-shijian/imgic_wechat_white.png"></image>
+      <image class="pop-authorize-bt-ic" src="https://cdn.dankal.cn/wxapp-sw/images/ic_wechat_white.png"></image>
       <text>微信账号快速登录</text>
     </button>
-    <image class="pop-authorize-close" src="https://cdn.dankal.cn/wxapp-shijian/imgic_del.png" @tap="closePhoneModal"></image>
+    <image class="pop-authorize-close" src="https://cdn.dankal.cn/wxapp-sw/images/ic_clone.png" @tap="closePhoneModal"></image>
   </view>
 </template>
 <script>
