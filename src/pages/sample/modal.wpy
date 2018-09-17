@@ -1,0 +1,477 @@
+<!-- 哈哈哈哈 -->
+<template>
+  <view class="page">
+    <view class="hahahaha">
+      <view class="header"></view>
+      <view class="content">
+        <view class="content-header"></view>
+        <view class="content-body">
+          <view class="open-modal"
+                @tap="openVanilla">普通提示弹窗</view>
+          <view class="open-modal"
+                @tap="openOneBtn">一个按钮弹窗</view>
+          <view class="open-modal"
+                @tap="openTwoBtn">两个按钮弹窗</view>
+          <view class="open-modal"
+                @tap="openContact">联系方式弹窗</view>
+        </view>
+        <view class="content-footer"></view>
+      </view>
+      <view class="footer"></view>
+    </view>
+    <view class="vanilla-modal"
+          wx:if="{{vanillaModal}}">
+      <view class="modal-content">
+        <view class="content-header">
+          <view class="title"></view>
+          <view class="close"
+                @tap="closeVanilla">
+            <image src="../../assets/images/ic_common_close.png" />
+          </view>
+        </view>
+        <view class="content-body">
+          下班到我办公室来
+        </view>
+        <view class="content-footer"></view>
+      </view>
+      <view class="g-modal-overlay"
+            @tap="closeVanilla"></view>
+    </view>
+    <view class="one-btn-modal"
+          wx:if="{{oneBtnModal}}">
+      <view class="modal-content">
+        <view class="content-header">
+          <view class="title">通知</view>
+          <view class="close"
+                @tap="closeOneBtn">
+            <image src="../../assets/images/ic_common_close.png" />
+          </view>
+        </view>
+        <view class="content-body">
+          下班到我办公室来
+        </view>
+        <view class="content-footer">
+          <view class="action"
+                @tap="closeOneBtn">
+            好的
+          </view>
+        </view>
+      </view>
+      <view class="g-modal-overlay"
+            @tap="closeOneBtn"></view>
+    </view>
+    <view class="two-btn-modal"
+          wx:if="{{twoBtnModal}}">
+      <view class="modal-content">
+        <view class="content-header">
+          <view class="title">通知</view>
+          <view class="close"
+                @tap="closeTwoBtn">
+            <image src="../../assets/images/ic_common_close.png" />
+          </view>
+        </view>
+        <view class="content-body">
+          下班到我办公室来
+        </view>
+        <view class="content-footer">
+          <view class="actions">
+            <view class="cancel"
+                  @tap="cancelTwoBtn">偏不</view>
+            <view class="confirm"
+                  @tap="confirmTwoBtn">好的</view>
+          </view>
+        </view>
+      </view>
+      <view class="g-modal-overlay"
+            @tap="closeTwoBtn"></view>
+    </view>
+    <view class="contact-modal"
+          wx:if="{{contactModal}}">
+      <view class="modal-content">
+        <view class="content-header">
+          <view class="title">联系方式</view>
+          <view class="close"
+                @tap="closeContact">
+            <image src="../../assets/images/ic_common_close.png" />
+          </view>
+        </view>
+        <view class="content-body">
+          <input type="number"
+                 maxlength="11"
+                 @input="handleInput({{'phone'}})"
+                 placeholder="请输入联系方式" />
+        </view>
+        <view class="content-footer">
+          <view @tap="confirmContact"
+                :class="{'action': true, 'active': phoneValidated}">
+            好的
+          </view>
+        </view>
+      </view>
+      <view class="g-modal-overlay"
+            @tap="closeContact"></view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Hahahaha extends wepy.page {
+  config = {
+    navigationBarTitleText: "哈哈哈哈",
+  };
+
+  data = {
+    vanillaModal: false,
+    oneBtnModal: false,
+    twoBtnModal: false,
+    contactModal: false,
+    phone: '',
+    phoneValidated: false
+  };
+
+  watch = {
+    phone(newValue) {
+      this.phoneValidated = !!this.handler().phoneValidator(newValue);
+      // 没想到吧！在 watch 里也要 $apply
+      this.$apply();
+    },
+  };
+
+  methods = {
+    openVanilla() {
+      this.vanillaModal = true;
+    },
+    closeVanilla() {
+      this.vanillaModal = false;
+    },
+    openOneBtn() {
+      this.oneBtnModal = true;
+    },
+    closeOneBtn() {
+      this.oneBtnModal = false;
+    },
+    openTwoBtn() {
+      this.twoBtnModal = true;
+    },
+    closeTwoBtn() {
+      this.twoBtnModal = false;
+    },
+    cancelTwoBtn() {
+      this.twoBtnModal = false;
+    },
+    confirmTwoBtn() {
+      this.twoBtnModal = false;
+    },
+    openContact() {
+      this.contactModal = true;
+    },
+    closeContact() {
+      this.phone = '';
+      this.contactModal = false;
+    },
+    confirmContact() {
+      if (!this.phoneValidated) {
+        return;
+      }
+      this.contactModal = false;
+    },
+    handleInput(key, event) {
+      this[key] = event.detail.value.trim();
+    },
+  };
+
+  network() {
+    return {
+      foo: () => { }
+    }
+  }
+
+  handler() {
+    return {
+      phoneValidator(phone) {
+        // https://blog.csdn.net/voidmain_123/article/details/78962164 正则来源
+        const validationRegExp = RegExp('^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$');
+        return validationRegExp.test(phone);
+      }
+    }
+  }
+
+
+  computed = {};
+
+  onLoad() { };
+
+  onShow() { };
+}
+</script>
+
+<style lang='less'>
+.page {
+  .hahahaha {
+    .header {
+    }
+    .content {
+      .content-header {
+      }
+      .content-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 50vh;
+        width: 100%;
+        .open-modal {
+          background-color: pink;
+          border-radius: 999rpx;
+          padding: 10rpx 50rpx;
+          color: #fff;
+          font-size: 60rpx;
+        }
+      }
+      .content-footer {
+      }
+    }
+    .footer {
+    }
+  }
+  .vanilla-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    .modal-content {
+      z-index: 1001;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500rpx;
+      border-radius: 8rpx;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      .content-header {
+        .title {
+        }
+        .close {
+          position: absolute;
+          top: 30rpx;
+          right: 30rpx;
+          image {
+            width: 35rpx;
+            height: 35rpx;
+          }
+        }
+      }
+      .content-body {
+        height: 250rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 32rpx;
+        font-weight: bold;
+      }
+      .content-footer {
+      }
+    }
+  }
+  .one-btn-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    .modal-content {
+      z-index: 1001;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500rpx;
+      border-radius: 8rpx;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      font-size: 32rpx;
+
+      .content-header {
+        .title {
+          height: 90rpx;
+          line-height: 90rpx;
+          text-align: center;
+          border-bottom: 2rpx solid #f7f7f7;
+          font-weight: bold;
+        }
+        .close {
+          position: absolute;
+          top: 20rpx;
+          right: 30rpx;
+          image {
+            width: 35rpx;
+            height: 35rpx;
+          }
+        }
+      }
+      .content-body {
+        height: 250rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .content-footer {
+        .action {
+          color: #fff;
+          height: 90rpx;
+          background-color: orange;
+          // border-radius: 8rpx;
+          text-align: center;
+          line-height: 90rpx;
+        }
+      }
+    }
+  }
+  .two-btn-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    .modal-content {
+      z-index: 1001;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500rpx;
+      border-radius: 8rpx;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      font-size: 32rpx;
+
+      .content-header {
+        .title {
+          height: 90rpx;
+          line-height: 90rpx;
+          text-align: center;
+          border-bottom: 2rpx solid #f7f7f7;
+          font-weight: bold;
+        }
+        .close {
+          position: absolute;
+          top: 20rpx;
+          right: 30rpx;
+          image {
+            width: 35rpx;
+            height: 35rpx;
+          }
+        }
+      }
+      .content-body {
+        height: 250rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .content-footer {
+        .actions {
+          border-top: 2rpx solid #c2c2c2;
+          height: 90rpx;
+          display: flex;
+          .cancel {
+            text-align: center;
+            line-height: 90rpx;
+            flex: 1;
+            border-right: 2rpx solid #c2c2c2;
+          }
+          .confirm {
+            text-align: center;
+            line-height: 90rpx;
+            flex: 1;
+          }
+        }
+      }
+    }
+  }
+  .contact-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    .modal-content {
+      z-index: 1001;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500rpx;
+      border-radius: 8rpx;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      font-size: 32rpx;
+
+      .content-header {
+        .title {
+          height: 90rpx;
+          line-height: 90rpx;
+          text-align: center;
+          border-bottom: 2rpx solid #f7f7f7;
+          font-weight: bold;
+        }
+        .close {
+          position: absolute;
+          top: 20rpx;
+          right: 30rpx;
+          image {
+            width: 35rpx;
+            height: 35rpx;
+          }
+        }
+      }
+      .content-body {
+        height: 250rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        input {
+          text-align: center;
+
+          font-weight: bold;
+        }
+      }
+      .content-footer {
+        .action {
+          color: #fff;
+          height: 90rpx;
+          background-color: #d2d2d2;
+          // border-radius: 8rpx;
+          text-align: center;
+          line-height: 90rpx;
+          &.active {
+            background-color: orange;
+          }
+        }
+      }
+    }
+  }
+}
+</style>

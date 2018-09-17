@@ -9,7 +9,33 @@
 	},
 	"compileType": "miniprogram",
 	"appid": "touristappid",
-	"projectname": "wxapp",
-	"miniprogramRoot": "./dist",
-	"condition": {}
+	"projectname": "template",
+	"miniprogramRoot": "dist/",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "modal",
+					"pathName": "pages/sample/modal"
+				}
+			]
+		}
+	}
 }
