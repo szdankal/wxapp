@@ -1,0 +1,39 @@
+<!-- 哈哈哈哈 -->
+<template>
+  <view class="page">
+    <view class="hahahaha">
+      <view class="header"></view>
+      <view class="content">
+        <view class="content-header"></view>
+        <view class="content-body"></view>
+        <view class="content-footer"></view>
+      </view>
+      <view class="footer"></view>
+    </view>
+
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Hahahaha extends wepy.page {
+  config = {
+    navigationBarTitleText: "哈哈哈哈",
+  };
+
+  data = {};
+
+  methods = {};
+
+  watch = {};
+
+  computed = {};
+
+  onLoad() { };
+
+  onShow() { };
+}
+</script>
+
+<style lang='less'>
+</style>

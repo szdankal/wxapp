@@ -25,6 +25,8 @@
              url="./star-level">6.星级选择组件</navigator>
   <navigator class="sub-title"
              url="./address/address-new">7.新建地址页面</navigator>
+  <navigator class="sub-title"
+             url="./modal">8.modal</navigator>
 
 </template>
 
@@ -60,7 +62,7 @@ export default class Index extends wepy.page {
   /*放置私有处理函数*/
   handler() {
     return {
-      handleList: () => {}
+      handleList: () => { }
     };
   }
   /*wepy事件函数*/
