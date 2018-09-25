@@ -138,7 +138,8 @@ export default class extends wepy.app {
       'pages/sample/address/address-map',
       'pages/sample/address/address-search',
       'pages/sample/modal',
-      'pages/sample/page'
+      'pages/sample/page',
+      'pages/sample/order-management'
     ],
     window: {
       backgroundTextStyle: 'light',

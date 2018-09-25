@@ -2,13 +2,17 @@
 <template>
   <view class="page">
     <view class="hahahaha">
-      <view class="header"></view>
+      <view class="header">
+        <!-- header 放不属于本页面特有内容的部分，方便复用和布局 -->
+      </view>
       <view class="content">
         <view class="content-header"></view>
-        <view class="content-body"></view>
+        <view class="content-body"></view>Ï
         <view class="content-footer"></view>
       </view>
-      <view class="footer"></view>
+      <view class="footer">
+        <!-- footer 放不属于本页面特有内容的部分，方便复用和布局 -->
+      </view>
     </view>
 
   </view>
