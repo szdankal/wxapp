@@ -27,6 +27,8 @@
              url="./address/address-new">7.新建地址页面</navigator>
   <navigator class="sub-title"
              url="./modal">8.modal</navigator>
+  <navigator class="sub-title"
+             url="./order-management">9.订单管理</navigator>
 
 </template>
 
