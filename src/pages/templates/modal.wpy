@@ -6,26 +6,38 @@
       <view class="content">
         <view class="content-header"></view>
         <view class="content-body">
-          <view class="open-modal"
-                @tap="openVanilla">普通提示弹窗</view>
-          <view class="open-modal"
-                @tap="openOneBtn">一个按钮弹窗</view>
-          <view class="open-modal"
-                @tap="openTwoBtn">两个按钮弹窗</view>
-          <view class="open-modal"
-                @tap="openContact">联系方式弹窗</view>
+          <view
+            class="open-modal"
+            @tap="openVanilla"
+          >普通提示弹窗</view>
+          <view
+            class="open-modal"
+            @tap="openOneBtn"
+          >一个按钮弹窗</view>
+          <view
+            class="open-modal"
+            @tap="openTwoBtn"
+          >两个按钮弹窗</view>
+          <view
+            class="open-modal"
+            @tap="openContact"
+          >联系方式弹窗</view>
         </view>
         <view class="content-footer"></view>
       </view>
       <view class="footer"></view>
     </view>
-    <view class="vanilla-modal"
-          wx:if="{{vanillaModal}}">
+    <view
+      class="vanilla-modal"
+      wx:if="{{vanillaModal}}"
+    >
       <view class="modal-content">
         <view class="content-header">
           <view class="title"></view>
-          <view class="close"
-                @tap="closeVanilla">
+          <view
+            class="close"
+            @tap="closeVanilla"
+          >
             <image src="../../assets/images/ic_common_close.png" />
           </view>
         </view>
@@ -34,16 +46,22 @@
         </view>
         <view class="content-footer"></view>
       </view>
-      <view class="g-modal-overlay"
-            @tap="closeVanilla"></view>
+      <view
+        class="g-modal-overlay"
+        @tap="closeVanilla"
+      ></view>
     </view>
-    <view class="one-btn-modal"
-          wx:if="{{oneBtnModal}}">
+    <view
+      class="one-btn-modal"
+      wx:if="{{oneBtnModal}}"
+    >
       <view class="modal-content">
         <view class="content-header">
           <view class="title">通知</view>
-          <view class="close"
-                @tap="closeOneBtn">
+          <view
+            class="close"
+            @tap="closeOneBtn"
+          >
             <image src="../../assets/images/ic_common_close.png" />
           </view>
         </view>
@@ -51,22 +69,30 @@
           下班到我办公室来
         </view>
         <view class="content-footer">
-          <view class="action"
-                @tap="closeOneBtn">
+          <view
+            class="action"
+            @tap="closeOneBtn"
+          >
             好的
           </view>
         </view>
       </view>
-      <view class="g-modal-overlay"
-            @tap="closeOneBtn"></view>
+      <view
+        class="g-modal-overlay"
+        @tap="closeOneBtn"
+      ></view>
     </view>
-    <view class="two-btn-modal"
-          wx:if="{{twoBtnModal}}">
+    <view
+      class="two-btn-modal"
+      wx:if="{{twoBtnModal}}"
+    >
       <view class="modal-content">
         <view class="content-header">
           <view class="title">通知</view>
-          <view class="close"
-                @tap="closeTwoBtn">
+          <view
+            class="close"
+            @tap="closeTwoBtn"
+          >
             <image src="../../assets/images/ic_common_close.png" />
           </view>
         </view>
@@ -75,41 +101,57 @@
         </view>
         <view class="content-footer">
           <view class="actions">
-            <view class="cancel"
-                  @tap="cancelTwoBtn">偏不</view>
-            <view class="confirm"
-                  @tap="confirmTwoBtn">好的</view>
+            <view
+              class="cancel"
+              @tap="cancelTwoBtn"
+            >偏不</view>
+            <view
+              class="confirm"
+              @tap="confirmTwoBtn"
+            >好的</view>
           </view>
         </view>
       </view>
-      <view class="g-modal-overlay"
-            @tap="closeTwoBtn"></view>
+      <view
+        class="g-modal-overlay"
+        @tap="closeTwoBtn"
+      ></view>
     </view>
-    <view class="contact-modal"
-          wx:if="{{contactModal}}">
+    <view
+      class="contact-modal"
+      wx:if="{{contactModal}}"
+    >
       <view class="modal-content">
         <view class="content-header">
           <view class="title">联系方式</view>
-          <view class="close"
-                @tap="closeContact">
+          <view
+            class="close"
+            @tap="closeContact"
+          >
             <image src="../../assets/images/ic_common_close.png" />
           </view>
         </view>
         <view class="content-body">
-          <input type="number"
-                 maxlength="11"
-                 @input="handleInput({{'phone'}})"
-                 placeholder="请输入联系方式" />
+          <input
+            type="number"
+            maxlength="11"
+            @input="handleInput({{'phone'}})"
+            placeholder="请输入联系方式"
+          />
         </view>
         <view class="content-footer">
-          <view @tap="confirmContact"
-                :class="{'action': true, 'active': phoneValidated}">
+          <view
+            @tap="confirmContact"
+            :class="{'action': true, 'active': phoneValidated}"
+          >
             好的
           </view>
         </view>
       </view>
-      <view class="g-modal-overlay"
-            @tap="closeContact"></view>
+      <view
+        class="g-modal-overlay"
+        @tap="closeContact"
+      ></view>
     </view>
   </view>
 </template>
@@ -118,7 +160,7 @@
 import wepy from 'wepy';
 export default class Hahahaha extends wepy.page {
   config = {
-    navigationBarTitleText: "哈哈哈哈",
+    navigationBarTitleText: '哈哈哈哈',
   };
 
   data = {
@@ -127,7 +169,7 @@ export default class Hahahaha extends wepy.page {
     twoBtnModal: false,
     contactModal: false,
     phone: '',
-    phoneValidated: false
+    phoneValidated: false,
   };
 
   watch = {
@@ -183,30 +225,31 @@ export default class Hahahaha extends wepy.page {
 
   network() {
     return {
-      foo: () => { }
-    }
+      foo: () => {},
+    };
   }
 
   handler() {
     return {
       phoneValidator(phone) {
         // https://blog.csdn.net/voidmain_123/article/details/78962164 正则来源
-        const validationRegExp = RegExp('^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$');
+        const validationRegExp = RegExp(
+          '^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$',
+        );
         return validationRegExp.test(phone);
-      }
-    }
+      },
+    };
   }
-
 
   computed = {};
 
-  onLoad() { };
+  onLoad() {}
 
-  onShow() { };
+  onShow() {}
 }
 </script>
 
-<style lang='less'>
+<style lang='scss'>
 .page {
   .hahahaha {
     .header {

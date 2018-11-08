@@ -132,7 +132,7 @@ export default class AddressSearch extends wepy.page {
 }
 </script>
 
-<style lang='less'>
+<style lang='scss'>
 .address-search {
   .address-search__header {
     display: flex;

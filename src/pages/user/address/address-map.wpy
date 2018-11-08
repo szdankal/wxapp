@@ -150,7 +150,7 @@ export default class AddressMap extends wepy.page {
 }
 </script>
 
-<style lang='less'>
+<style lang='scss'>
 .address-map {
   .address-search-entry {
     display: flex;

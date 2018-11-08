@@ -1,0 +1,61 @@
+<template>
+  <view>
+    <input @input="bindInput1" />
+    <text>+</text>
+    <input @input="bindInput2" />
+    <text>={{caculateVal}}</text>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+//http://mikemcl.github.io/big.js/#times 文档地址
+import Big from 'big.js';
+export default class Caculate extends wepy.page {
+  data = {
+    input1: '',
+    input2: '',
+  };
+  components = {};
+  computed = {
+    /**
+     * plus,minus,times,div函数分别对应加减乘除
+     * @returns {*}
+     */
+    caculateVal() {
+      try {
+        return new Big(this.input1).plus(new Big(this.input2).toString());
+      } catch (e) {
+        // console.log(e,'error')
+        return '';
+      }
+    },
+  };
+  onLoad() {}
+
+  onShow() {}
+
+  onReady() {}
+
+  methods = {
+    bindInput1({ detail }) {
+      this.input1 = detail.value;
+    },
+    bindInput2({ detail }) {
+      this.input2 = detail.value;
+    },
+  };
+
+  network() {}
+
+  handler() {}
+}
+</script>
+
+<style lang="scss">
+input {
+  display: inline-block;
+  border: 1px solid darkgray;
+  width: 30%;
+}
+</style>

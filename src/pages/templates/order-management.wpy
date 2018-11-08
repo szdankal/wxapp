@@ -6,32 +6,52 @@
       <view class="content">
         <view class="content-header">
           <view class="tabs">
-            <view :class="{'tab': true, 'active': activeTab === 1}"
-                  @tap="tapTab({{1}})">全部</view>
-            <view :class="{'tab': true, 'active': activeTab === 2}"
-                  @tap="tapTab({{2}})">待支付</view>
-            <view :class="{'tab': true, 'active': activeTab === 3}"
-                  @tap="tapTab({{3}})">待自提</view>
-            <view :class="{'tab': true, 'active': activeTab === 4}"
-                  @tap="tapTab({{4}})">已完成</view>
+            <view
+              :class="{'tab': true, 'active': activeTab === 1}"
+              @tap="tapTab({{1}})"
+            >全部</view>
+            <view
+              :class="{'tab': true, 'active': activeTab === 2}"
+              @tap="tapTab({{2}})"
+            >待支付</view>
+            <view
+              :class="{'tab': true, 'active': activeTab === 3}"
+              @tap="tapTab({{3}})"
+            >待自提</view>
+            <view
+              :class="{'tab': true, 'active': activeTab === 4}"
+              @tap="tapTab({{4}})"
+            >已完成</view>
           </view>
           <view class="decorator">
-            <view class="box"
-                  style="margin-left: {{(activeTab - 1) * 25 }}%">
+            <view
+              class="box"
+              style="margin-left: {{(activeTab - 1) * 25 }}%"
+            >
               <view class="bar"></view>
             </view>
           </view>
         </view>
         <view class="content-body">
-          <block wx:for="{{ordersList}}" wx:key="index" wx:for-index="index" wx:for-item="orderItem">
+          <block
+            wx:for="{{ordersList}}"
+            wx:key="index"
+            wx:for-index="index"
+            wx:for-item="orderItem"
+          >
             <view class="order">
               <view class="order-header">
-<view class="icon"></view>
-<view class="store-name"></view>
-<view class="order-status"></view>
+                <view class="icon"></view>
+                <view class="store-name"></view>
+                <view class="order-status"></view>
               </view>
               <view class="order-body">
-                <block wx:for="{{orderItem.productsList}}" wx:key="index" wx:for-index="index" wx:for-item="productItem">
+                <block
+                  wx:for="{{orderItem.productsList}}"
+                  wx:key="index"
+                  wx:for-index="index"
+                  wx:for-item="productItem"
+                >
 
                 </block>
               </view>
@@ -51,11 +71,11 @@
 import wepy from 'wepy';
 export default class Hahahaha extends wepy.page {
   config = {
-    navigationBarTitleText: "哈哈哈哈",
+    navigationBarTitleText: '哈哈哈哈',
   };
 
   data = {
-    activeTab: 1
+    activeTab: 1,
   };
 
   methods = {
@@ -69,13 +89,13 @@ export default class Hahahaha extends wepy.page {
 
   computed = {};
 
-  onLoad() { };
+  onLoad() {}
 
-  onShow() { };
+  onShow() {}
 }
 </script>
 
-<style lang='less'>
+<style lang='scss'>
 .page {
   .order-management {
     .header {

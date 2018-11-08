@@ -1,0 +1,93 @@
+<template>
+  <view>
+    <view class="main-title">Dankal Template</view>
+    <navigator
+      class="sub-title"
+      url="./wepyx"
+    >1.wepyx状态管理演示</navigator>
+    <navigator
+      class="sub-title"
+      url="./auth"
+    >2.auth页面</navigator>
+    <navigator
+      class="sub-title"
+      url="./caculate"
+    >3.浮点型计算</navigator>
+    <navigator
+      class="sub-title"
+      url="./repeat"
+    >4.repeat自定义组件渲染</navigator>
+    <navigator
+      class="sub-title"
+      url="./appointment"
+    >5.时间选择组件</navigator>
+    <navigator
+      class="sub-title"
+      url="./star-level"
+    >6.星级选择组件</navigator>
+    <navigator
+      class="sub-title"
+      url="./address/address-new"
+    >7.新建地址页面</navigator>
+    <navigator
+      class="sub-title"
+      url="./modal"
+    >8.modal</navigator>
+    <navigator
+      class="sub-title"
+      url="./order-management"
+    >9.订单管理</navigator>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: 'test',
+  };
+  components = {};
+
+  data = {
+    name: 'ivan',
+  };
+  computed = {};
+  onLoad() {
+    console.log(this, 'onload');
+  }
+  onShow() {
+    this.network().getIndexList();
+  }
+  /*放置view层事件函数*/
+  methods = {};
+  /*放置网络访问函数*/
+  network() {
+    return {
+      getIndexList: async () => {
+        console.log(this.name);
+      },
+    };
+  }
+  /*放置私有处理函数*/
+  handler() {
+    return {
+      handleList: () => {},
+    };
+  }
+  /*wepy事件函数*/
+  events = {};
+}
+</script>
+
+<style lang="scss">
+.main-title {
+  text-align: center;
+  font-size: 38rpx;
+  font-weight: bold;
+  padding: 20rpx 0;
+}
+.sub-title {
+  padding: 20rpx 20rpx;
+}
+</style>
