@@ -1,23 +1,23 @@
 <template>
   <view>
-    <repeat
+    <!-- <repeat
       for="{{list}}"
       item="item"
     >
       <item :item.sync="item"></item>
-    </repeat>
+    </repeat> -->
   </view>
 </template>
 
 <script>
 import wepy from 'wepy';
-import item from '../../components/item';
+// import item from '../../components/item';
 export default class Repeat extends wepy.page {
   data = {
     list: [{ name: 'ivan', age: 23 }, { name: 'tracy', age: 23 }],
   };
   components = {
-    item,
+    // item,
   };
 
   onLoad() {}
