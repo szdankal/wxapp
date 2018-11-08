@@ -1,0 +1,153 @@
+<template>
+  <view class="container">
+    <view class="textarea-block">
+      <view class="textarea-item">
+        <textarea
+          name="feedback"
+          placeholder="* 我们懂得聆听，请在此写下您的建议"
+          maxlength="200"
+          bindinput="onchange"
+        ></textarea>
+        <text class='text-item'>
+          <text style="color: rgba(245, 166, 35, 1);">{{number}}</text>/200
+        </text>
+      </view>
+      <upload-image
+        class="upload-item"
+        :uploadedList.sync="uploadedList"
+        :imageLimit="imageLimit"
+      />
+    </view>
+    <view
+      class="action-button"
+      @tap="submit"
+    >保存</view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import UploadImage from '@/components/upload-image';
+
+export default class CommodityComment extends wepy.page {
+  config = {
+    navigationBarTitleText: '意见反馈',
+  };
+
+  components = {
+    'upload-image': UploadImage,
+  };
+
+  data = {
+    number: 0,
+    content: '',
+    uploadedList: [],
+    imageLimit: 3,
+  };
+
+  onLoad() {}
+
+  methods = {
+    onchange(event) {
+      this.content = event.detail.value;
+      this.number = event.detail.cursor;
+      this.$apply();
+    },
+
+    submit() {
+      const { content } = this;
+
+      if (!content.trim()) {
+        wx.showToast({
+          title: '请填写评论内容',
+          icon: 'none',
+        });
+        return;
+      }
+
+      let tags = [];
+
+      this.tags.map(item => {
+        let tag = item.sub_tag.find(child => child.status);
+        if (tag) {
+          tags.push(tag.uuid);
+        }
+      });
+
+      let temp = Object.assign(
+        {},
+        {
+          images: this.uploadedList,
+          notes: this.content,
+        },
+      );
+    },
+  };
+
+  network() {
+    return {};
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.container {
+  padding-top: 20rpx;
+
+  .textarea-block {
+    background-color: #ffffff;
+    // height: 530rpx;
+    margin-bottom: 32rpx;
+    padding: 25rpx 32rpx 0rpx 32rpx;
+  }
+
+  .textarea-item {
+    position: relative;
+    border-bottom: 1px solid#E5E5E5;
+
+    textarea {
+      width: 100%;
+      height: 288rpx;
+      box-sizing: border-box;
+      margin-bottom: 32rpx;
+      background: rgba(255, 255, 255, 1);
+      font-size: 28rpx;
+      color: rgba(174, 174, 174, 1);
+      line-height: 40rpx;
+    }
+
+    .text-item {
+      position: absolute;
+      bottom: 18rpx;
+      right: 0rpx;
+      display: inline-block;
+
+      font-size: 28rpx;
+      font-family: PingFangSC-Regular;
+      color: rgba(74, 74, 74, 1);
+      line-height: 40rpx;
+    }
+  }
+
+  .upload-item {
+    margin-top: 24rpx;
+  }
+
+  .action-button {
+    display: block;
+
+    width: 676rpx;
+    height: 92rpx;
+    background: #f5a623;
+    border-radius: 6rpx;
+    margin: 0 auto;
+
+    text-align: center;
+    font-size: 32rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 92rpx;
+  }
+}
+</style>

@@ -21,6 +21,10 @@
 import wepy from 'wepy';
 
 export default class UserCenter extends wepy.page {
+  config = {
+    navigationBarTitleText: '个人中心',
+  };
+
   data = {
     selects: [
       {
@@ -32,6 +36,10 @@ export default class UserCenter extends wepy.page {
         // icon: require(''),
         name: '我的地址',
         path: '/pages/user/coupon/coupon-center',
+      },
+      {
+        name: '意见反馈',
+        path: '/pages/user/feedback',
       },
     ],
   };

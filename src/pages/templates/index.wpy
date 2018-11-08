@@ -45,22 +45,31 @@ import wepy from 'wepy';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: 'test',
+    navigationBarTitleText: 'Dankal模板',
   };
+
   components = {};
 
   data = {
     name: 'ivan',
   };
+
   computed = {};
+
   onLoad() {
     console.log(this, 'onload');
   }
+
   onShow() {
     this.network().getIndexList();
   }
+
+  /*wepy事件函数*/
+  events = {};
+
   /*放置view层事件函数*/
   methods = {};
+
   /*放置网络访问函数*/
   network() {
     return {
@@ -69,14 +78,13 @@ export default class Index extends wepy.page {
       },
     };
   }
+
   /*放置私有处理函数*/
   handler() {
     return {
       handleList: () => {},
     };
   }
-  /*wepy事件函数*/
-  events = {};
 }
 </script>
 

@@ -153,11 +153,15 @@ export default class extends wepy.app {
       'pages/templates/page',
       'pages/templates/order-management',
       'pages/user/index',
+
       'pages/user/address/address-new',
       'pages/user/address/address-map',
       'pages/user/address/address-search',
+
       'pages/user/coupon/user-coupons',
       'pages/user/coupon/coupon-center',
+
+      'pages/user/feedback',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -187,6 +191,7 @@ export default class extends wepy.app {
 
   globalData = {
     userInfo: null,
+    imgBaseUrl: 'https://cdn.dankal.cn/wxcgt/images/',
   };
 
   constructor() {

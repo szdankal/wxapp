@@ -35,7 +35,7 @@
 
 <script>
 import wepy from 'wepy';
-import { getChannelQnToken } from '@/api/api';
+import { getChannelQnToken } from '@/api/cloud';
 
 export default class UploadImage extends wepy.component {
   props = {
@@ -126,6 +126,7 @@ export default class UploadImage extends wepy.component {
   }
   .text-part {
     // text-align: right;
+    color: #9b9b9b;
     margin-bottom: 25rpx;
   }
 }
