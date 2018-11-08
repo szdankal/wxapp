@@ -1,0 +1,116 @@
+@import './mixins.scss';
+
+// 声明组件的 CSS 变量
+$box-shadow: 4rpx 4rpx 10rpx rgba(0, 0, 0, 0.05),
+  4rpx -4rpx 10rpx rgba(0, 0, 0, 0.05), -4rpx 4rpx 10rpx rgba(0, 0, 0, 0.05),
+  -4rpx -4rpx 10rpx rgba(0, 0, 0, 0.05);
+
+@mixin dankal-coupon($background-image) {
+  @include flex-container;
+  position: relative;
+  flex-direction: column;
+
+  overflow: hidden;
+  padding: 6rpx 6rpx;
+
+  .coupon-content-block {
+    @include flex-container;
+    position: relative;
+    width: 690rpx;
+    height: 192rpx;
+    border-radius: 10rpx;
+
+    background-image: $background-image;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+
+    box-shadow: $box-shadow;
+
+    .coupon-content-infos {
+      flex-basis: 70%;
+
+      @include flex-container;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0rpx 32rpx;
+
+      box-shadow: 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.05);
+
+      text {
+        color: #ffffff;
+      }
+
+      & > text:nth-of-type(1) {
+        font-size: 50rpx;
+      }
+
+      & > text:nth-of-type(2) {
+        font-size: 28rpx;
+      }
+
+      & > view {
+        @include flex-container;
+        justify-content: space-between;
+        width: 100%;
+
+        text {
+          font-size: 24rpx;
+        }
+
+        image {
+          width: 20rpx;
+          height: 12rpx;
+          transition: all 0.3s;
+          transform: scale(1.2);
+        }
+
+        .active {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .coupon-content-action {
+      flex-basis: 30%;
+      @include flex-container($justify-content: center);
+
+      .coupon-button {
+        width: 150rpx;
+        height: 52rpx;
+
+        border-radius: 26rpx;
+        font-size: 26rpx;
+        line-height: 52rpx;
+        text-align: center;
+      }
+    }
+  }
+
+  .coupon-attachs-block {
+    position: relative;
+    z-index: -1;
+
+    width: 672rpx;
+    background-color: #ffffff;
+    padding: 24rpx 24rpx;
+    border-bottom-left-radius: 10rpx;
+    border-bottom-right-radius: 10rpx;
+
+    bottom: 0rpx;
+    transition: bottom 0.3s ease-in-out;
+    visibility: inherit;
+    box-shadow: $box-shadow;
+    margin-top: -12rpx;
+
+    text {
+      display: block;
+    }
+  }
+
+  .coupon-attachs-block.active {
+    position: absolute;
+    bottom: 1050rpx;
+    visibility: hidden;
+  }
+}

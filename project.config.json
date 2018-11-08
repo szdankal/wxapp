@@ -8,7 +8,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"appid": "touristappid",
+	"appid": "wxa6bef6d2966b0efe",
 	"projectname": "template",
 	"miniprogramRoot": "dist/",
 	"condition": {
@@ -28,7 +28,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 3,
 			"list": [
 				{
 					"id": -1,
@@ -39,7 +39,19 @@
 				{
 					"id": -1,
 					"name": "order management",
-					"pathName": "pages/sample/order-management"
+					"pathName": "pages/sample/order-management",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "优惠劵",
+					"pathName": "pages/sample/coupon/user-coupons",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "领卷中心",
+					"pathName": "pages/sample/coupon/coupon-center"
 				}
 			]
 		}
