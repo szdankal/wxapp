@@ -3,25 +3,38 @@
     <view class="textarea-block">
       <view class="textarea-item">
         <textarea
+          wx:if="{{!modal}}"
           name="feedback"
           placeholder="* 我们懂得聆听，请在此写下您的建议"
           maxlength="200"
-          bindinput="onchange"
-        ></textarea>
+          bindinput="handlerInput"
+        />
         <text class='text-item'>
           <text style="color: rgba(245, 166, 35, 1);">{{number}}</text>/200
         </text>
       </view>
       <upload-image
         class="upload-item"
-        :uploadedList.sync="uploadedList"
-        :imageLimit="imageLimit"
+        :images.sync="images"
+        :limit="limit"
       />
     </view>
     <view
       class="action-button"
-      @tap="submit"
-    >保存</view>
+      @tap="handlerSubmit"
+    >
+      保存
+    </view>
+    <view class="modal-block" :class="{active: modal}" @tap="handlerModalBack">
+      <view class="modal-shadows"/>
+      <view class="modal-content">
+        <image
+          src="../../assets/images/ic-feedback-success.png"
+          mode="widthFix"
+        />
+        <text>反馈成功</text>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -39,22 +52,23 @@ export default class CommodityComment extends wepy.page {
   };
 
   data = {
-    number: 0,
     content: '',
-    uploadedList: [],
-    imageLimit: 3,
+    number: 0,
+    images: [],
+    limit: 3,
+    modal: false,
   };
 
   onLoad() {}
 
   methods = {
-    onchange(event) {
+    handlerInput(event) {
       this.content = event.detail.value;
       this.number = event.detail.cursor;
       this.$apply();
     },
 
-    submit() {
+    handlerSubmit() {
       const { content } = this;
 
       if (!content.trim()) {
@@ -65,22 +79,21 @@ export default class CommodityComment extends wepy.page {
         return;
       }
 
-      let tags = [];
-
-      this.tags.map(item => {
-        let tag = item.sub_tag.find(child => child.status);
-        if (tag) {
-          tags.push(tag.uuid);
-        }
-      });
-
       let temp = Object.assign(
         {},
         {
-          images: this.uploadedList,
+          images: this.images,
           notes: this.content,
         },
       );
+
+      this.modal = true;
+    },
+
+    handlerModalBack() {
+      wx.navigateBack({
+        delta: -1,
+      });
     },
   };
 
@@ -90,7 +103,9 @@ export default class CommodityComment extends wepy.page {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss">
+@import '../../assets/styles/components.scss';
+
 .container {
   padding-top: 20rpx;
 
@@ -104,6 +119,7 @@ export default class CommodityComment extends wepy.page {
   .textarea-item {
     position: relative;
     border-bottom: 1px solid#E5E5E5;
+    height: 300rpx;
 
     textarea {
       width: 100%;
@@ -148,6 +164,38 @@ export default class CommodityComment extends wepy.page {
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
     line-height: 92rpx;
+  }
+
+  .modal-block {
+    @include modal;
+    transform: translate(0%, -100%);
+    transition: all 0.3s;
+
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      width: 480rpx;
+      height: 420rpx;
+
+      background-color: #ffffff;
+      border-radius: 10rpx;
+
+      image {
+        width: 224rpx;
+        margin-bottom: 32rpx;
+      }
+
+      text {
+        font-size: 36rpx;
+      }
+    }
+  }
+
+  .modal-block.active {
+    transform: translate(0%, 0%);
   }
 }
 </style>
