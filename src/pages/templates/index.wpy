@@ -5,6 +5,7 @@
       <navigator
         class="sub-title navigator-block"
         wx:for="{{pages}}"
+        wx:key="this"
         wx:for-item="item"
         url="./{{item.path}}"
       >

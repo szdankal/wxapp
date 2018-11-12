@@ -35,7 +35,7 @@ export default class UserCenter extends wepy.page {
       {
         // icon: require(''),
         name: '我的地址',
-        path: '/pages/user/coupon/coupon-center',
+        path: '/pages/user/address/address-new',
       },
       {
         name: '意见反馈',
