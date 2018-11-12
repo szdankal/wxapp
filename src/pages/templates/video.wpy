@@ -1,0 +1,69 @@
+<template>
+  <view class="container">
+    <scroll-view
+      scroll-y
+      bindscroll="handlerContext"
+    >
+      <view style="height: 1000rpx"></view>
+      <video
+        id="initail"
+        src="{{src}}"
+      />
+      <view style="height: 1000rpx"></view>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Video extends wepy.page {
+  config = {
+    navigationBarTitleText: '视频播放',
+  };
+
+  data = {
+    src: '',
+    context: null,
+  };
+
+  onLoad() {
+    setTimeout(() => {
+      console.log('====================================');
+      console.log('haha');
+      console.log('====================================');
+      this.src = 'https://qn.beauty-villa.cn/ltJrc7pY8DQw8PAZe-lS3_3FVWDT';
+    }, 1000);
+  }
+
+  onShow() {
+    this.context = wx.createVideoContext('initail');
+  }
+
+  methods = {
+    handlerContext(event) {
+      const { scrollTop } = event.detail;
+      console.log('====================================');
+      console.log(scrollTop);
+      console.log('====================================');
+      if (scrollTop > 500) {
+        this.context.play();
+      }
+    },
+  };
+
+  network() {}
+}
+</script>
+
+<style lang="scss">
+.container {
+  video {
+    width: 100%;
+  }
+}
+
+scroll-view {
+  height: 100vh;
+}
+</style>

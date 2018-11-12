@@ -152,6 +152,7 @@ export default class extends wepy.app {
       'pages/templates/modal',
       'pages/templates/page',
       'pages/templates/order-management',
+      'pages/templates/video',
       'pages/user/index',
 
       'pages/user/address/address-new',

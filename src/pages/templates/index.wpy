@@ -1,42 +1,16 @@
 <template>
   <view>
     <view class="main-title">Dankal Template</view>
-    <navigator
-      class="sub-title"
-      url="./wepyx"
-    >1.wepyx状态管理演示</navigator>
-    <navigator
-      class="sub-title"
-      url="./auth"
-    >2.auth页面</navigator>
-    <navigator
-      class="sub-title"
-      url="./caculate"
-    >3.浮点型计算</navigator>
-    <navigator
-      class="sub-title"
-      url="./repeat"
-    >4.repeat自定义组件渲染</navigator>
-    <navigator
-      class="sub-title"
-      url="./appointment"
-    >5.时间选择组件</navigator>
-    <navigator
-      class="sub-title"
-      url="./star-level"
-    >6.星级选择组件</navigator>
-    <navigator
-      class="sub-title"
-      url="./address/address-new"
-    >7.新建地址页面</navigator>
-    <navigator
-      class="sub-title"
-      url="./modal"
-    >8.modal</navigator>
-    <navigator
-      class="sub-title"
-      url="./order-management"
-    >9.订单管理</navigator>
+    <view>
+      <navigator
+        class="sub-title navigator-block"
+        wx:for="{{pages}}"
+        wx:for-item="item"
+        url="./{{item.path}}"
+      >
+        {{item.name}}
+      </navigator>
+    </view>
   </view>
 </template>
 
@@ -52,6 +26,40 @@ export default class Index extends wepy.page {
 
   data = {
     name: 'ivan',
+    pages: [
+      {
+        path: 'wepyx',
+        name: 'WEPYX状态管理演示',
+      },
+      {
+        path: 'auth',
+        name: 'auth页面',
+      },
+      {
+        path: 'caculate',
+        name: '浮点型计算',
+      },
+      {
+        path: 'repeat',
+        name: 'Repeat自定义组件渲染',
+      },
+      {
+        path: 'appointment',
+        name: '时间选择组件',
+      },
+      {
+        path: 'star-level',
+        name: '星级选择组件',
+      },
+      {
+        path: 'modal',
+        name: '蒙层',
+      },
+      {
+        path: 'order-management',
+        name: '订单管理',
+      },
+    ],
   };
 
   computed = {};
@@ -95,7 +103,21 @@ export default class Index extends wepy.page {
   font-weight: bold;
   padding: 20rpx 0;
 }
+
 .sub-title {
-  padding: 20rpx 20rpx;
+  padding: 30rpx 20rpx;
+}
+
+.navigator-block {
+  width: 90vw;
+  margin: auto;
+  background-color: #ffffff;
+
+  box-shadow: 2rpx 2rpx 4rpx rgba($color: #000000, $alpha: 0.08);
+}
+
+.navigator-block + .navigator-block {
+  margin-top: 10rpx;
+  border-radius: 4rpx;
 }
 </style>

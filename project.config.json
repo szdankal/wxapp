@@ -1,7 +1,7 @@
 {
 	"description": "wechat app template based on wepy",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -28,7 +28,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 5,
 			"list": [
 				{
 					"id": -1,
@@ -57,7 +57,13 @@
 				{
 					"id": -1,
 					"name": "意见反馈",
-					"pathName": "pages/user/feedback"
+					"pathName": "pages/user/feedback",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "视频",
+					"pathName": "pages/templates/video"
 				}
 			]
 		}
