@@ -7,9 +7,9 @@ input{
 </style>
 <template>
     <view>
-      <input @input="bindInput1"/>
+      <input @input="bindInput1" type="number"/>
       <text>+</text>
-      <input  @input="bindInput2"/>
+      <input  @input="bindInput2" type="number"/>
       <text>={{caculateVal}}</text>
     </view>
 </template>

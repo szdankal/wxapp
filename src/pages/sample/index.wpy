@@ -30,6 +30,8 @@
   <navigator class="sub-title"
              url="./order-management">9.订单管理</navigator>
 
+  <button @tap="back">back</button>
+
 </template>
 
 <script>
@@ -49,10 +51,15 @@ export default class Index extends wepy.page {
     console.log(this, 'onload');
   }
   onShow() {
-    this.network().getIndexList();
+   // this.network().getIndexList();
   }
   /*放置view层事件函数*/
-  methods = {};
+  methods = {
+   async back(){
+   let res=await   wepy.chooseLocation()
+     console.log(res,'res')
+    }
+  };
   /*放置网络访问函数*/
   network() {
     return {
