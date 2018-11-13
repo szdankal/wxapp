@@ -1,0 +1,133 @@
+<template>
+  <view
+    class="upload-image"
+    wx:if="{{baseImgUrl}}"
+  >
+    <view class="text-part">上传图片（{{uploadedList.length}}/{{imageLimit}}）</view>
+    <view class="image-part">
+      <repeat
+        for="{{uploadedList}}"
+        key="index"
+        index="index"
+        item="item"
+      >
+        <view class="show-image">
+          <image src="{{item}}" />
+          <image
+            class="pic-del-button"
+            @tap="onRemoveImage({{index}})"
+            src="{{baseImgUrl + 'ic_mine_on.png'}}"
+          />
+        </view>
+      </repeat>
+      <view
+        class="add-image"
+        hidden="{{limitNumber === 0}}"
+        @tap="tapAddImage"
+      >
+        <image src="{{baseImgUrl + 'ic_mine_add.png'}}" />
+        <!-- <slot name="add-pic"></slot> -->
+      </view>
+    </view>
+    <!-- <view class="text-part"> {{uploadedList.length}} / {{imageLimit}}</view> -->
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import { getChannelQnToken } from '@/api/cloud';
+
+export default class UploadImage extends wepy.component {
+  props = {
+    imageLimit: Number,
+    uploadedList: {
+      type: Array,
+      default: [],
+      twoWay: true,
+    },
+  };
+  computed = {
+    baseImgUrl() {
+      return this.$parent.$parent.globalData.imgBaseUrl;
+    },
+    limitNumber() {
+      return this.imageLimit - this.uploadedList.length;
+    },
+  };
+  methods = {
+    async tapAddImage() {
+      let resultFiles = await wepy.chooseImage({
+        count: this.limitNumber, //最多可以选择的图片张数,
+        sizetype: ['compressed'],
+      });
+
+      let { data, statusCode } = await getChannelQnToken();
+
+      if (statusCode === 200) {
+        let uploadedImageBaseUrl = data.url;
+
+        resultFiles.tempFilePaths.forEach(async tempFilePath => {
+          wepy.showLoading({
+            title: '加载中', //提示的内容,
+            mask: true, //显示透明蒙层，防止触摸穿透,
+          });
+          let uploadedResult = await wepy.uploadFile({
+            // 七牛上传域名表
+            // https://developer.qiniu.com/kodo/manual/1671/region-endpoint
+            url: 'https://upload-z2.qiniup.com', //开发者服务器 url
+            filePath: tempFilePath, //要上传文件资源的路径
+            name: 'file', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
+            formData: {
+              token: data.token,
+            },
+          });
+          this.uploadedList.push(
+            uploadedImageBaseUrl + JSON.parse(uploadedResult.data).hash,
+          );
+          this.$apply();
+          wepy.hideLoading();
+        });
+      }
+    },
+    onRemoveImage(index) {
+      this.uploadedList.splice(index, 1);
+    },
+  };
+}
+</script>
+
+<style lang="scss">
+.upload-image {
+  .image-part {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .show-image {
+      margin-bottom: 20rpx;
+      image {
+        width: 185rpx;
+        height: 185rpx;
+      }
+      .pic-del-button {
+        width: 40rpx;
+        height: 40rpx;
+        vertical-align: top;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .add-image {
+      margin-bottom: 20rpx;
+      image {
+        width: 185rpx;
+        height: 185rpx;
+      }
+    }
+  }
+  .text-part {
+    // text-align: right;
+    color: #9b9b9b;
+    margin-bottom: 25rpx;
+  }
+}
+</style>

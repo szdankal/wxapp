@@ -1,7 +1,15 @@
 <template>
   <view class="star-rank">
-    <repeat for="{{starInputs}}" key="index" index="index" item="starInput">
-      <view class="star-input" @tap="rankIt('{{index}}')">
+    <repeat
+      for="{{starInputs}}"
+      key="index"
+      index="index"
+      item="starInput"
+    >
+      <view
+        class="star-input"
+        @tap="rankIt('{{index}}')"
+      >
         <image src="http://p8p5w226i.bkt.clouddn.com/images/{{starInput}}" />
       </view>
     </repeat>
@@ -17,30 +25,30 @@ export default class StarRank extends wepy.component {
       'ic_star.png',
       'ic_star.png',
       'ic_star.png',
-      'ic_star.png'
+      'ic_star.png',
     ],
-    star: 0
+    star: 0,
   };
   props = {
     count: {
       type: Number,
       default: 0,
-      twoWay: true
+      twoWay: true,
     },
     touchAble: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   };
   computed = {
     starInputs() {
       let result = this.baseStars.slice();
-      console.log(result,'result')
+      console.log(result, 'result');
       for (let i = 0; i < parseInt(this.count); i++) {
         result.unshift('ic_star_light.png');
       }
       return result.slice(0, 5);
-    }
+    },
   };
   methods = {
     rankIt(index) {
@@ -49,12 +57,12 @@ export default class StarRank extends wepy.component {
       }
       this.count = index + 1;
       console.log(index);
-    }
+    },
   };
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .star-rank {
   display: flex;
   align-items: center;
@@ -63,8 +71,8 @@ export default class StarRank extends wepy.component {
     align-items: center;
     margin-right: 10rpx;
     image {
-    height: 34rpx;
-    width: 34rpx;
+      height: 34rpx;
+      width: 34rpx;
     }
   }
 }

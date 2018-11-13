@@ -1,0 +1,132 @@
+<template>
+  <view>
+    <view class="main-title">Dankal Template</view>
+    <view>
+      <navigator
+        class="sub-title navigator-block"
+        wx:for="{{pages}}"
+        wx:key="this"
+        wx:for-item="item"
+        url="./{{item.path}}"
+      >
+        {{item.name}}
+      </navigator>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: 'Dankal模板',
+  };
+
+  components = {};
+
+  data = {
+    name: 'ivan',
+    pages: [
+      {
+        path: 'wepyx',
+        name: 'WEPYX状态管理演示',
+      },
+      {
+        path: 'auth',
+        name: 'auth页面',
+      },
+      {
+        path: 'caculate',
+        name: '浮点型计算',
+      },
+      {
+        path: 'repeat',
+        name: 'Repeat自定义组件渲染',
+      },
+      {
+        path: 'appointment',
+        name: '时间选择组件',
+      },
+      {
+        path: 'star-level',
+        name: '星级选择组件',
+      },
+      {
+        path: 'modal',
+        name: '蒙层',
+      },
+      {
+        path: 'order-management',
+        name: '订单管理',
+      },
+      {
+        path: 'video',
+        name: '视频播放',
+      },
+      {
+        path: 'share',
+        name: '微信分享',
+      },
+    ],
+  };
+
+  computed = {};
+
+  onLoad() {
+    console.log(this, 'onload');
+  }
+
+  onShow() {
+    this.network().getIndexList();
+  }
+
+  /*wepy事件函数*/
+  events = {};
+
+  /*放置view层事件函数*/
+  methods = {};
+
+  /*放置网络访问函数*/
+  network() {
+    return {
+      getIndexList: async () => {
+        console.log(this.name);
+      },
+    };
+  }
+
+  /*放置私有处理函数*/
+  handler() {
+    return {
+      handleList: () => {},
+    };
+  }
+}
+</script>
+
+<style lang="scss">
+.main-title {
+  text-align: center;
+  font-size: 38rpx;
+  font-weight: bold;
+  padding: 20rpx 0;
+}
+
+.sub-title {
+  padding: 30rpx 20rpx;
+}
+
+.navigator-block {
+  width: 90vw;
+  margin: auto;
+  background-color: #ffffff;
+
+  box-shadow: 2rpx 2rpx 4rpx rgba($color: #000000, $alpha: 0.08);
+}
+
+.navigator-block + .navigator-block {
+  margin-top: 10rpx;
+  border-radius: 4rpx;
+}
+</style>

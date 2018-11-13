@@ -1,0 +1,91 @@
+<template>
+  <view class="container">
+    <view class="select-block">
+      <repeat for="{{selects}}">
+        <view
+          class="select-item"
+          @tap="handlerNavigateTo({{item.path}})"
+        >
+          <view>
+            <!-- <image mode="widthFix" /> -->
+            <text>{{item.name}}</text>
+          </view>
+          <image src="../../assets/images/ic_location_enter.png" />
+        </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class UserCenter extends wepy.page {
+  config = {
+    navigationBarTitleText: '个人中心',
+  };
+
+  data = {
+    selects: [
+      {
+        // icon: require(''),
+        name: '我的优惠劵',
+        path: '/pages/user/coupon/user-coupons',
+      },
+      {
+        // icon: require(''),
+        name: '我的地址',
+        path: '/pages/user/address/address-new',
+      },
+      {
+        name: '意见反馈',
+        path: '/pages/user/feedback',
+      },
+    ],
+  };
+
+  methods = {
+    handlerNavigateTo(url) {
+      wx.navigateTo({
+        url,
+      });
+    },
+  };
+
+  network() {}
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../assets/styles/mixins.scss';
+
+.select-block {
+  background-color: #ffffff;
+  padding: 0rpx 48rpx;
+
+  .select-item {
+    @include flex-container;
+    padding: 36rpx;
+
+    view {
+      image {
+        display: none;
+        width: 32rpx;
+      }
+
+      text {
+        font-size: 28rpx;
+      }
+    }
+
+    & > image {
+      width: 8rpx;
+      height: 16rpx;
+    }
+  }
+
+  .select-item + .select-item {
+    border-top: 1rpx solid#F1F1F1;
+  }
+}
+</style>

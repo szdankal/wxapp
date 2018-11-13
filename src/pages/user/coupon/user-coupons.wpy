@@ -1,0 +1,286 @@
+<template>
+  <view class="container">
+    <dankal-tabs
+      :options="tabs"
+      :current.sync="index"
+    />
+    <swiper
+      class="swiper-block"
+      bindchange="handlerUpdateTab"
+      current="{{index}}"
+    >
+      <swiper-item>
+        <view class="exchange-block">
+          <input
+            placeholder="优惠劵兑换码"
+            type="text"
+            bindinput="handlerInputCode"
+          />
+          <view @tap="handlerExchange">兑换</view>
+        </view>
+        <view
+          class="coupon-block"
+          wx:for="{{coupons}}"
+          wx:key="index"
+          wx:for-index="index"
+          wx:for-item="item"
+        >
+          <view class="coupon-content-block">
+            <view class="coupon-content-infos">
+              <text>满149减100</text>
+              <text>纯露化妆水无门槛10元券</text>
+              <view>
+                <text>2017-09-08～2017-09-20</text>
+                <image
+                  :class="{active: !item.lunch}"
+                  src="../../../assets/images/up.png"
+                  @tap="handlerAttachLunch({{index}})"
+                />
+              </view>
+            </view>
+            <view class="coupon-content-action">
+              <view
+                class="coupon-button"
+                @tap="handlerCouponUse"
+              >
+                <text>立即使用</text>
+              </view>
+            </view>
+          </view>
+          <view
+            class="coupon-attachs-block"
+            :class="{active: !item.lunch}"
+          >
+            <text>限品类：仅可购买个人护理部分商品</text>
+            <text>适用门店：一号店、二号店、三号店</text>
+          </view>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view
+          class="coupon-block a"
+          wx:for="{{coupons}}"
+          wx:key="index"
+          wx:for-index="index"
+          wx:for-item="item"
+        >
+          <view class="coupon-content-block">
+            <view class="coupon-content-infos">
+              <text>满149减100</text>
+              <text>纯露化妆水无门槛10元券</text>
+              <view>
+                <text>2017-09-08～2017-09-20</text>
+                <image
+                  :class="{active: !item.lunch}"
+                  src="../../../assets/images/up.png"
+                  @tap="handlerAttachLunch({{index}})"
+                />
+              </view>
+            </view>
+            <view class="coupon-content-action">
+            </view>
+          </view>
+          <view
+            class="coupon-attachs-block"
+            :class="{active: !item.lunch}"
+          >
+            <text>限品类：仅可购买个人护理部分商品</text>
+            <text>适用门店：一号店、二号店、三号店</text>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="action-block">
+      <view>
+        <text>逛一逛</text>
+      </view>
+      <view>
+        <text>领券中心</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+import DankalTabs from '../../../components/dankal-tabs';
+
+export default class UserCoupon extends wepy.page {
+  data = {
+    // Tab 的可选选型
+    tabs: [
+      {
+        // tab 的名称
+        name: '可用',
+        // tab 的 code, 需要与 swiper 下标对应
+        code: 0,
+      },
+      {
+        name: '失效',
+        code: 1,
+      },
+    ],
+    // 控制 Tab 和 swiper 的标志
+    index: '',
+    // 优惠劵
+    coupons: [
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+    ],
+    // 优惠劵兑换码
+    value: '',
+  };
+
+  components = {
+    'dankal-tabs': DankalTabs,
+  };
+
+  events = {
+    select: data => {
+      this.index = data.code;
+    },
+  };
+
+  methods = {
+    handlerInputCode(event) {
+      const value = event.target.value;
+      this.value = value;
+    },
+
+    handlerExchange() {
+      const { value } = this;
+      console.log('====================================');
+      console.log(value);
+      console.log('====================================');
+    },
+
+    handlerUpdateTab(event) {
+      this.index = event.detail.current;
+    },
+
+    handlerAttachLunch(index) {
+      let lunch = this.coupons[index].lunch;
+
+      this.coupons[index] = Object.assign({}, this.coupons[index], {
+        lunch: !lunch,
+      });
+    },
+
+    handlerCouponUse() {
+      console.log('====================================');
+      console.log('coupon use');
+      console.log('====================================');
+    },
+  };
+
+  network() {}
+}
+</script>
+
+<style lang="scss">
+@import '../../../assets/styles/components.scss';
+@import '../../../assets/styles/mixins.scss';
+
+// CSS 配置参数
+$background-image: url(http://cwb-qn.dankal.cn/wxcwb/images/bg_coupon_car.png);
+
+.container {
+  height: 100%;
+
+  .exchange-block {
+    @include flex-container($justify-content: center);
+
+    margin-top: 32rpx;
+
+    input {
+      width: 460rpx;
+      height: 82rpx;
+      border: 1rpx solid #979797;
+
+      border-radius: 41rpx;
+      padding: 0rpx 41rpx;
+      background-color: #ffffff;
+    }
+
+    view {
+      width: 210rpx;
+      height: 82rpx;
+      background-color: #4a90e2;
+      margin-left: 20rpx;
+
+      color: #ffffff;
+      text-align: center;
+      line-height: 82rpx;
+      border-radius: 41rpx;
+    }
+  }
+
+  .swiper-block {
+    height: calc(100% - 100rpx);
+
+    swiper-item {
+      overflow-y: scroll;
+    }
+  }
+
+  .coupon-block {
+    @include dankal-coupon($background-image);
+
+    margin-top: 32rpx;
+
+    .coupon-button {
+      border: 1px solid #ffffff;
+      color: #ffffff;
+    }
+  }
+
+  .coupon-block:nth-last-of-type(1) {
+    margin-bottom: 120rpx;
+  }
+
+  .action-block {
+    @include flex-container($justify-content: center);
+
+    position: fixed;
+    bottom: 0rpx;
+    width: 100%;
+    height: 100rpx;
+
+    view {
+      @include flex-container($justify-content: center);
+
+      flex: 1;
+      height: 100%;
+    }
+
+    view:nth-of-type(1) {
+      background-color: #ffffff;
+      color: #4a4a4a;
+    }
+
+    view:nth-of-type(2) {
+      background-color: #4a90e2;
+      color: #ffffff;
+    }
+  }
+}
+</style>

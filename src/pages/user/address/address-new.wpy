@@ -361,7 +361,7 @@ export default class AddressNew extends wepy.page {
 }
 </script>
 
-<style lang='less'>
+<style lang='scss'>
 .address-new {
   .address-new__form-content {
     background-color: #fff;

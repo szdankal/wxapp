@@ -1,5 +1,3 @@
-<style lang="less">
-</style>
 <template>
   <view>
     <view>
@@ -21,11 +19,11 @@ import { INCREMENT, DECREMENT } from '../../store/mutations/type';
 import { ASYNC_INCREMENT } from '../../store/actions/type';
 
 @connector.connect({
-  num: state => state.store.num
+  num: state => state.store.num,
 })
 export default class Wepyx extends wepy.page {
   data = {
-    list: new Array(10)
+    list: new Array(10),
   };
   components = {};
 
@@ -45,7 +43,7 @@ export default class Wepyx extends wepy.page {
     },
     asyncPlus() {
       this.dispatcher.store[ASYNC_INCREMENT](1);
-    }
+    },
   };
 
   network() {}
@@ -54,3 +52,5 @@ export default class Wepyx extends wepy.page {
 }
 </script>
 
+<style lang="scss">
+</style>
