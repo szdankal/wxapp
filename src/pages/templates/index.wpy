@@ -60,6 +60,14 @@ export default class Index extends wepy.page {
         path: 'order-management',
         name: '订单管理',
       },
+      {
+        path: 'video',
+        name: '视频播放',
+      },
+      {
+        path: 'share',
+        name: '微信分享',
+      },
     ],
   };
 

@@ -1,0 +1,75 @@
+<template>
+  <view class="container">
+    <button
+      id="share"
+      open-type="share"
+      data-title="繁若星"
+      data-image="http://img.hb.aicdn.com/2e395af24b977542a6dcfb28973cd8d89e0ce95b532b3-ntDpvA"
+    />
+    <label
+      class="enjoy-button"
+      for="share"
+    >
+      送给好友
+    </label>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Share extends wepy.page {
+  data = {};
+
+  methods = {};
+
+  network() {}
+
+  onShareAppMessage(event) {
+    const { title, image } = event.target.dataset;
+
+    let temp = Object.assign(
+      {},
+      {
+        title,
+        imageUrl: image,
+      },
+      {
+        path: '/pages/templates/share',
+      },
+      {
+        success: res => {
+          console.log('====================================');
+          console.log('success');
+          console.log('====================================');
+        },
+        fail: res => {
+          console.log('====================================');
+          console.log('error');
+          console.log('====================================');
+        },
+      },
+    );
+
+    return temp;
+  }
+}
+</script>
+
+<style lang="scss">
+@import '../../assets/styles/variable.scss';
+
+.enjoy-button {
+  background-color: $main-color;
+  color: #ffffff;
+
+  position: fixed;
+  bottom: 0rpx;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+
+  text-align: center;
+  padding: 30rpx;
+}
+</style>

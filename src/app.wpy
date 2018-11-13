@@ -134,6 +134,8 @@ import weappx from 'weappx';
 import connector from 'weappx-wepy';
 import model from './store';
 
+import interceptor from './configs/interceptor';
+
 const store = weappx();
 store.init({ connector });
 store.model(model);
@@ -153,6 +155,7 @@ export default class extends wepy.app {
       'pages/templates/page',
       'pages/templates/order-management',
       'pages/templates/video',
+      'pages/templates/share',
       'pages/user/index',
 
       'pages/user/address/address-new',
@@ -199,6 +202,7 @@ export default class extends wepy.app {
     super();
     this.use('requestfix');
     this.use('promisify');
+    this.intercept('request', interceptor);
   }
 
   onLaunch() {}
