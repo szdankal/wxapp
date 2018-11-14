@@ -1,0 +1,146 @@
+<template>
+  <view class="container">
+    <swiper
+      class="swiper-block"
+      indicator-dots="{{indicatorDots}}"
+      autoplay="{{autoplay}}"
+      interval="{{interval}}"
+      duration="{{duration}}"
+    >
+      <block
+        wx:for="{{imgUrls}}"
+        wx:key="index"
+        wx:for-index="index"
+        wx:for-item="item"
+      >
+        <swiper-item>
+          <image
+            src="{{item}}"
+            class="coupon-image"
+          />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="coupon-list">
+      <view
+        class="coupon-block"
+        wx:for="{{coupons}}"
+        wx:key="index"
+        wx:for-index="index"
+        wx:for-item="item"
+      >
+        <view class="coupon-content-block">
+          <view class="coupon-content-infos">
+            <text>满149减100</text>
+            <text>纯露化妆水无门槛10元券</text>
+            <view>
+              <text>2017-09-08～2017-09-20</text>
+              <image
+                :class="{active: !item.lunch}"
+                src="../../../assets/images/up.png"
+                @tap="handlerAttachLunch({{index}})"
+              />
+            </view>
+          </view>
+          <view class="coupon-content-action">
+            <view class="coupon-button">
+              <text>立即领取</text>
+            </view>
+          </view>
+        </view>
+        <view
+          class="coupon-attachs-block"
+          :class="{active: !item.lunch}"
+        >
+          <text>限品类：仅可购买个人护理部分商品</text>
+          <text>适用门店：一号店、二号店、三号店</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class UserCoupon extends wepy.page {
+  data = {
+    imgUrls: [
+      'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+      'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+      'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
+    ],
+    indicatorDots: true,
+    autoplay: true,
+    interval: 5000,
+    duration: 1000,
+    coupons: [
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+      {
+        label: '测试 - 星空',
+        lunch: true,
+      },
+    ],
+  };
+
+  methods = {
+    handlerAttachLunch(index) {
+      let lunch = this.coupons[index].lunch;
+
+      this.coupons[index] = Object.assign({}, this.coupons[index], {
+        lunch: !lunch,
+      });
+    },
+  };
+
+  network() {}
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../../assets/styles/components.scss';
+
+// CSS 配置参数
+$background-image: url(http://cwb-qn.dankal.cn/wxcwb/images/bg_coupon_car.png);
+
+.container {
+  .swiper-block {
+    height: 320rpx;
+  }
+
+  .coupon-image {
+    width: 100%;
+    height: 320rpx;
+  }
+
+  .coupon-list {
+    padding-bottom: 32rpx;
+  }
+
+  .coupon-block {
+    @include dankal-coupon($background-image);
+    margin-top: 32rpx;
+
+    box-shadow: 4rpx 4rpx 4rpx #f9f9f9;
+
+    .coupon-button {
+      background-color: #f8e71c;
+      color: #ffffff;
+    }
+  }
+}
+</style>

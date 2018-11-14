@@ -1,0 +1,37 @@
+<template>
+  <view>
+    <star
+      :count="starCount"
+      :touchAble.twoWay="starAvailable"
+    />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import star from '../../components/star-rank';
+export default class StarLevel extends wepy.page {
+  data = {
+    starCount: 2, //星级数
+    starAvailable: true, //是否可点击
+  };
+  components = {
+    star,
+  };
+
+  onLoad() {}
+
+  onShow() {}
+
+  onReady() {}
+
+  methods = {};
+
+  network() {}
+
+  handler() {}
+}
+</script>
+
+<style lang="scss">
+</style>
