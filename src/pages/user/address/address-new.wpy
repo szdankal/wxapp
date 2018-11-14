@@ -1,25 +1,31 @@
 <!-- 新建地址 -->
 <template>
-  <view class='address-new'
-        wx:if="{{baseImgUrl}}">
+  <view
+    class='address-new'
+    wx:if="{{baseImgUrl}}"
+  >
     <view class="address-new__form-content">
       <view class="address-new__form-content-row">
         <view class="address-new__label">
           收货人：
         </view>
         <view class="address-new__input">
-          <input value="{{receiveName}}"
-                 maxlength="10"
-                 @input="handleInput({{'receiveName'}})"
-                 placeholder="请填写收货人" />
+          <input
+            value="{{receiveName}}"
+            maxlength="10"
+            @input="handleInput({{'receiveName'}})"
+            placeholder="请填写收货人"
+          />
         </view>
       </view>
       <view class="address-new__form-content-row">
         <view class="address-new__label">
           性别：
         </view>
-        <view class="address-new__input"
-              @tap="switchGender">
+        <view
+          class="address-new__input"
+          @tap="switchGender"
+        >
           <view class="address-new__male">
             <image src="{{gender === 1 ? baseImgUrl + 'ic_address_o2.png' : baseImgUrl + 'ic_address_o.png'}}" /> 先生
           </view>
@@ -33,25 +39,34 @@
           联系方式：
         </view>
         <view class="address-new__input">
-          <input value="{{receiveMobile}}"
-                 type="number"
-                 maxlength="11"
-                 @input="handleInput({{'receiveMobile'}})"
-                 placeholder="请填写电话号码" />
+          <input
+            value="{{receiveMobile}}"
+            type="number"
+            maxlength="11"
+            @input="handleInput({{'receiveMobile'}})"
+            placeholder="请填写电话号码"
+          />
         </view>
       </view>
-      <view class="address-new__form-content-row"
-            @tap="goTo({{'/pages/sample/address/address-map'}})">
+      <view
+        class="address-new__form-content-row"
+        @tap="goTo({{'/pages/sample/address/address-map'}})"
+      >
         <view class="address-new__label">
           收货地址：
         </view>
         <view class="address-new__input">
-          <input class="address-new__address-text"
-                 value="{{addressText}}"
-                 placeholder="请选择所在地区"
-                 disabled />
-          <image class="address-new__enter"
-                 src="{{baseImgUrl}}ic_location_enter.png" />
+          <input
+            class="address-new__address-text"
+            value="{{addressText}}"
+            placeholder="请选择所在地区"
+            disabled
+          >
+          </input>
+          <image
+            class="address-new__enter"
+            src="{{baseImgUrl}}ic_location_enter.png"
+          />
         </view>
       </view>
       <view class="address-new__form-content-row">
@@ -59,10 +74,12 @@
           门牌号：
         </view>
         <view class="address-new__input">
-          <input value="{{houseNumber}}"
-                 maxlength="20"
-                 @input="handleInput({{'houseNumber'}})"
-                 placeholder="请输入门牌号" />
+          <input
+            value="{{houseNumber}}"
+            maxlength="20"
+            @input="handleInput({{'houseNumber'}})"
+            placeholder="请输入门牌号"
+          />
         </view>
       </view>
       <view class="address-new__form-content-row">
@@ -70,13 +87,17 @@
           标签：
         </view>
         <view class="address-new__input">
-          <repeat for="{{tagList}}"
-                  index="index"
-                  key="index"
-                  item="tag">
-            <view @tap="switchTag({{tag.uuid}})"
-                  class="address-new__tag {{tag.uuid === tagUuid ? 'address-new__tag--active' : ''}}"
-                  state="tag">
+          <repeat
+            for="{{tagList}}"
+            index="index"
+            key="index"
+            item="tag"
+          >
+            <view
+              @tap="switchTag({{tag.uuid}})"
+              class="address-new__tag {{tag.uuid === tagUuid ? 'address-new__tag--active' : ''}}"
+              state="tag"
+            >
               {{tag.text}}
             </view>
           </repeat>
@@ -88,9 +109,11 @@
             设为默认地址
           </view>
           <view class="address-new__toggle-default-address__switch">
-            <switch checked="{{defaultReceive}}"
-                    color="#7A695A"
-                    @change="switchDefault"></switch>
+            <switch
+              checked="{{defaultReceive}}"
+              color="#7A695A"
+              @change="switchDefault"
+            ></switch>
           </view>
         </view>
         <view class="address-new__toggle-default-address__description">
@@ -98,8 +121,10 @@
         </view>
       </view>
     </view>
-    <view class="address-new__save-button"
-          @tap="tapSave">
+    <view
+      class="address-new__save-button"
+      @tap="tapSave"
+    >
       保存
     </view>
   </view>
@@ -112,17 +137,17 @@ import connector from 'weappx-wepy';
 import {
   SET_ADDRESS_TEXT,
   SET_LONGITUDE,
-  SET_LATITUDE
+  SET_LATITUDE,
 } from '@/store/mutations/type';
 @connector.connect({
   mobile: state => state.store.mobile,
   addressText: state => state.store.addressText,
   longitude: state => state.store.longitude,
-  latitude: state => state.store.latitude
+  latitude: state => state.store.latitude,
 })
 export default class AddressNew extends wepy.page {
   config = {
-    navigationBarTitleText: '新建地址'
+    navigationBarTitleText: '新建地址',
   };
 
   data = {
@@ -140,18 +165,18 @@ export default class AddressNew extends wepy.page {
     tagList: [
       {
         text: '家',
-        uuid: 'aaaa'
+        uuid: 'aaaa',
       },
       {
         text: '公司',
-        uuid: 'bbbb'
+        uuid: 'bbbb',
       },
       {
         text: '学校',
-        uuid: 'cccc'
-      }
+        uuid: 'cccc',
+      },
     ],
-    editUuid: null
+    editUuid: null,
   };
 
   components = {};
@@ -179,7 +204,7 @@ export default class AddressNew extends wepy.page {
     tapSave() {
       console.log('Save tapped');
       this.network().postReceivePutUserReceive();
-    }
+    },
   };
 
   network() {
@@ -194,7 +219,7 @@ export default class AddressNew extends wepy.page {
           title: '存了存了', //提示的内容,
           icon: 'success', //图标,
           duration: 1000, //延迟时间,
-          mask: true //显示透明蒙层，防止触摸穿透,
+          mask: true, //显示透明蒙层，防止触摸穿透,
         });
 
         /*---------------------------------------------------
@@ -259,7 +284,7 @@ export default class AddressNew extends wepy.page {
         //   this.dispatcher.store[SET_LONGITUDE](data.longitude);
         //   this.$apply();
         // }
-      }
+      },
     };
   }
 
@@ -271,7 +296,7 @@ export default class AddressNew extends wepy.page {
             title: '请填写收货人', //提示的内容,
             icon: 'none', //图标,
             duration: 1000, //延迟时间,
-            mask: true //显示透明蒙层，防止触摸穿透,
+            mask: true, //显示透明蒙层，防止触摸穿透,
           });
           return true;
         }
@@ -280,7 +305,7 @@ export default class AddressNew extends wepy.page {
             title: '请填写联系方式', //提示的内容,
             icon: 'none', //图标,
             duration: 1000, //延迟时间,
-            mask: true //显示透明蒙层，防止触摸穿透,
+            mask: true, //显示透明蒙层，防止触摸穿透,
           });
           return true;
         }
@@ -289,7 +314,7 @@ export default class AddressNew extends wepy.page {
             title: '请重新选择地址', //提示的内容,
             icon: 'none', //图标,
             duration: 1000, //延迟时间,
-            mask: true //显示透明蒙层，防止触摸穿透,
+            mask: true, //显示透明蒙层，防止触摸穿透,
           });
           return true;
         }
@@ -298,7 +323,7 @@ export default class AddressNew extends wepy.page {
             title: '请填写门牌号', //提示的内容,
             icon: 'none', //图标,
             duration: 1000, //延迟时间,
-            mask: true //显示透明蒙层，防止触摸穿透,
+            mask: true, //显示透明蒙层，防止触摸穿透,
           });
           return true;
         }
@@ -324,10 +349,10 @@ export default class AddressNew extends wepy.page {
           storeUuid: this.storeUuid,
           tagUuid: this.tagUuid,
           userUuid: this.userUuid,
-          uuid: this.uuid
+          uuid: this.uuid,
         };
         return false;
-      }
+      },
     };
   }
 
@@ -340,7 +365,7 @@ export default class AddressNew extends wepy.page {
       // 请修改成你在 globalData 里存放的 imgBaseUrl 并修改 address/ 中使用的所有 image
       // return this.$parent.globalData.imgBaseUrl;
       return 'https://cdn.dankal.cn/wxcgt/images/';
-    }
+    },
   };
 
   onLoad(options) {
